@@ -2,6 +2,9 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
+    id("com.google.devtools.ksp")
+    id("kotlin-kapt")
+
 }
 
 android {
@@ -49,4 +52,23 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    //room
+    //val room_version = "2.6.1"
+    implementation(libs.androidx.room.runtime)
+    annotationProcessor(libs.androidx.room.room.compiler)
+    // To use Kotlin annotation processing tool (kapt)
+    kapt(libs.androidx.room.room.compiler)
+    // To use Kotlin Symbol Processing (KSP)
+    //ksp(libs.androidx.room.room.compiler)
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation(libs.androidx.room.ktx)
+
+    //glide
+    implementation(libs.glide)
+
+    //transformations
+    implementation(libs.glide.transformations)
+    //If you want to use the GPU Filters
+    implementation(libs.gpuimage)
 }
