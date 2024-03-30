@@ -49,4 +49,17 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    //glide
+    implementation(libs.glide)
+    //implementation("com.github.bumptech.glide:glide:4.14.2")
+
+    //picasso :
+    //implementation 'com.squareup.picasso:picasso:2.71828'
+
+    // transformations
+    // implementation 'jp.wasabeef:glide-transformations:4.3.0'
+    // If you want to use the GPU Filters
+    // implementation 'jp.co.cyberagent.android:gpuimage:2.1.0'
+
 }
