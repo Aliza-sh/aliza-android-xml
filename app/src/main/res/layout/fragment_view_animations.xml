@@ -8,14 +8,15 @@
     tools:context=".FragmentViewAnimations">
 
     <LinearLayout
+        android:id="@+id/alpha_animation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
         android:gravity="center"
         android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/scale_animation"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="@+id/scale_animation">
 
         <ImageView
             android:id="@+id/img_anim_alpha"
@@ -29,6 +30,60 @@
             android:layout_height="45dp"
             android:layout_marginTop="10dp"
             android:text="Alpha" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/scale_animation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/img_anim_scale"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/img_animation" />
+
+        <RadioGroup
+            android:layout_marginTop="5dp"
+            android:id="@+id/radiogroup_scale"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/scale_animation">
+
+            <RadioButton
+                android:id="@+id/radio_pivot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="5dp"
+                android:padding="5dp"
+                android:text="pivot"
+                android:textSize="10sp" />
+
+            <RadioButton
+                android:id="@+id/radio_but_pivot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="5dp"
+                android:padding="5dp"
+                android:text="but pivot"
+                android:textSize="10sp" />
+
+        </RadioGroup>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_anim_scale"
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+            android:text="Scale" />
 
     </LinearLayout>
 
