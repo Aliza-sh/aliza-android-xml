@@ -1,12 +1,16 @@
 package com.aliza.alizaandroid
 
+import android.graphics.Interpolator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateInterpolator
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
+import android.view.animation.BounceInterpolator
 import android.view.animation.ScaleAnimation
+import android.view.animation.TranslateAnimation
 import androidx.fragment.app.Fragment
 import com.aliza.alizaandroid.databinding.FragmentViewAnimationsBinding
 
@@ -35,6 +39,7 @@ class FragmentViewAnimations : Fragment() {
                         binding.imgAnimScale.startAnimation(scaleAnimation(true))
                     }
                 }
+
                 R.id.radio_but_pivot -> {
                     binding.btnAnimScale.setOnClickListener {
                         binding.imgAnimScale.startAnimation(scaleAnimation(false))
@@ -42,6 +47,11 @@ class FragmentViewAnimations : Fragment() {
                 }
             }
         }
+
+        binding.btnAnimTranslate.setOnClickListener {
+            binding.imgAnimTranslate.startAnimation(translateAnimation())
+        }
+
     }
 
     private fun alphaAnimation(): AlphaAnimation {
@@ -58,7 +68,7 @@ class FragmentViewAnimations : Fragment() {
         return alphaAnimation
     }
 
-    private fun scaleAnimation(pivot: Boolean):ScaleAnimation {
+    private fun scaleAnimation(pivot: Boolean): ScaleAnimation {
         var scaleAnimation: ScaleAnimation? = null
 
         if (pivot) {
@@ -94,4 +104,42 @@ class FragmentViewAnimations : Fragment() {
         }
         return scaleAnimation as ScaleAnimation
     }
+
+    private fun translateAnimation(): TranslateAnimation {
+        val translateAnimation = TranslateAnimation(
+            0f, 500f,
+            0f, 500f
+        )
+        translateAnimation.duration = 2000
+        translateAnimation.interpolator = BounceInterpolator()
+        translateAnimation.fillAfter = true
+        translateAnimation.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation?) {}
+            override fun onAnimationEnd(animation: Animation?) {
+                val translateAnimation = TranslateAnimation(
+                    500f, 00f,
+                    500f, 1000f,
+                )
+                translateAnimation.duration = 2000
+                translateAnimation.setAnimationListener(object : Animation.AnimationListener {
+                    override fun onAnimationStart(animation: Animation?) {}
+                    override fun onAnimationEnd(animation: Animation?) {
+                        val translateAnimation = TranslateAnimation(
+                            0f, 0f,
+                            1000f, 0f
+                        )
+                        translateAnimation.duration = 2000
+                        translateAnimation.fillAfter = true
+                        binding.imgAnimTranslate.startAnimation(translateAnimation)
+                    }
+                    override fun onAnimationRepeat(animation: Animation?) {}
+                })
+                binding.imgAnimTranslate.startAnimation(translateAnimation)
+            }
+            override fun onAnimationRepeat(animation: Animation?) {}
+        })
+        return translateAnimation
+    }
+
+
 }
