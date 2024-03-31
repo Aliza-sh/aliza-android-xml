@@ -25,30 +25,26 @@ class FragmentViewAnimations : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         binding.btnAnimAlpha.setOnClickListener {
-            alphaAnimation()
+            binding.imgAnimAlpha.startAnimation(alphaAnimation())
         }
 
         binding.radiogroupScale.setOnCheckedChangeListener { _, i ->
-
             when (i) {
                 R.id.radio_pivot -> {
                     binding.btnAnimScale.setOnClickListener {
-                        scaleAnimation(true)
+                        binding.imgAnimScale.startAnimation(scaleAnimation(true))
                     }
                 }
-
                 R.id.radio_but_pivot -> {
                     binding.btnAnimScale.setOnClickListener {
-                        scaleAnimation(false)
+                        binding.imgAnimScale.startAnimation(scaleAnimation(false))
                     }
                 }
-
             }
         }
     }
 
-    private fun alphaAnimation() {
-
+    private fun alphaAnimation(): AlphaAnimation {
         val alphaAnimation = AlphaAnimation(1f, 0f)
         alphaAnimation.duration = 1000
         alphaAnimation.fillAfter = true
@@ -59,11 +55,12 @@ class FragmentViewAnimations : Fragment() {
             override fun onAnimationEnd(animation: Animation?) {}
             override fun onAnimationRepeat(animation: Animation?) {}
         })
-        binding.imgAnimAlpha.startAnimation(alphaAnimation)
+        return alphaAnimation
     }
 
-    lateinit var scaleAnimation: ScaleAnimation
-    private fun scaleAnimation(pivot: Boolean) {
+    private fun scaleAnimation(pivot: Boolean):ScaleAnimation {
+        var scaleAnimation: ScaleAnimation? = null
+
         if (pivot) {
             scaleAnimation = ScaleAnimation(
                 0f, 1f,
@@ -88,14 +85,13 @@ class FragmentViewAnimations : Fragment() {
                         1f, -0f,
                         1f, 1f
                     )
-                    scaleAnimation.duration = 2000
-                    scaleAnimation.fillAfter = true
+                    scaleAnimation!!.duration = 2000
+                    scaleAnimation!!.fillAfter = true
                     binding.imgAnimScale.startAnimation(scaleAnimation)
                 }
-
                 override fun onAnimationRepeat(animation: Animation?) {}
             })
         }
-        binding.imgAnimScale.startAnimation(scaleAnimation)
+        return scaleAnimation as ScaleAnimation
     }
 }
