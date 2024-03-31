@@ -9,6 +9,7 @@ import android.view.animation.AccelerateInterpolator
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.view.animation.BounceInterpolator
+import android.view.animation.RotateAnimation
 import android.view.animation.ScaleAnimation
 import android.view.animation.TranslateAnimation
 import androidx.fragment.app.Fragment
@@ -50,6 +51,22 @@ class FragmentViewAnimations : Fragment() {
 
         binding.btnAnimTranslate.setOnClickListener {
             binding.imgAnimTranslate.startAnimation(translateAnimation())
+        }
+
+        binding.radiogroupRotate.setOnCheckedChangeListener { _, i ->
+            when (i) {
+                R.id.radio_rotate_pivot -> {
+                    binding.btnAnimRotate.setOnClickListener {
+                        binding.imgAnimRotate.startAnimation(rotateAnimation(true))
+                    }
+                }
+
+                R.id.radio_rotate_but_pivot -> {
+                    binding.btnAnimRotate.setOnClickListener {
+                        binding.imgAnimRotate.startAnimation(rotateAnimation(false))
+                    }
+                }
+            }
         }
 
     }
@@ -141,5 +158,26 @@ class FragmentViewAnimations : Fragment() {
         return translateAnimation
     }
 
+    private fun rotateAnimation(pivot: Boolean): RotateAnimation {
+        var rotateAnimation: RotateAnimation? = null
+
+        if (pivot) {
+            rotateAnimation = RotateAnimation(
+                0f, 360f,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+            )
+            rotateAnimation.duration = 2000
+            rotateAnimation.fillAfter = true
+            rotateAnimation.repeatCount = 5
+        } else {
+            rotateAnimation = RotateAnimation(
+                0f, 360f,
+                0f, 1f
+            )
+            rotateAnimation.duration = 2000
+        }
+        return rotateAnimation
+    }
 
 }
