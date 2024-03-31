@@ -12,5 +12,13 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.btnFrgViewAnimations.setOnClickListener {
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction
+                .add(R.id.frame_container, FragmentViewAnimations(), null)
+                .addToBackStack(null)
+                .commit()
+        }
+
     }
 }
