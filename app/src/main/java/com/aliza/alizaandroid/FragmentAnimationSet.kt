@@ -1,7 +1,6 @@
 package com.aliza.alizaandroid
 
-import android.R.attr.animation
-import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +14,7 @@ import android.view.animation.ScaleAnimation
 import android.view.animation.TranslateAnimation
 import androidx.fragment.app.Fragment
 import com.aliza.alizaandroid.databinding.FragmentAnimationSetBinding
+import com.google.android.material.card.MaterialCardView
 
 
 class FragmentAnimationSet : Fragment() {
@@ -47,53 +47,26 @@ class FragmentAnimationSet : Fragment() {
         var open = false
         binding.btnOpenChooseWindow.setOnClickListener {
             if (open) {
-                val translateAnimation = TranslateAnimation(
-                    0f, -650f,
-                    0f, 0f
-                )
-                translateAnimation.duration = 1000
-                translateAnimation.setAnimationListener(object : Animation.AnimationListener {
-                    override fun onAnimationStart(animation: Animation) {}
-                    override fun onAnimationEnd(animation: Animation) {
-                        val newX = binding.CardViewChooseWindow.translationX - 650f
-                        val newY = binding.CardViewChooseWindow.translationY
-                        binding.CardViewChooseWindow.translationX = newX
-                        binding.CardViewChooseWindow.translationY = newY
-                        binding.btnOpenChooseWindow.translationX = newX
-                        binding.btnOpenChooseWindow.translationY = newY
-                    }
-
-                    override fun onAnimationRepeat(animation: Animation) {}
-                })
-                binding.CardViewChooseWindow.startAnimation(translateAnimation)
-                binding.btnOpenChooseWindow.startAnimation(translateAnimation)
+                val translateX = 0f
+                setAnimatorX(translateX,binding.CardViewChooseWindow)
+                setAnimatorX(translateX,binding.btnOpenChooseWindow)
                 binding.imgAnimChooseWindow.setImageResource(R.drawable.ic_right)
                 open = false
-            } else {
-                val translateAnimation = TranslateAnimation(
-                    binding.CardViewChooseWindow.translationX, 650f,
-                    0f, 0f
-                )
-                translateAnimation.duration = 1000
-                translateAnimation.setAnimationListener(object : Animation.AnimationListener {
-                    override fun onAnimationStart(animation: Animation) {}
-                    override fun onAnimationEnd(animation: Animation) {
-                        val newX = binding.CardViewChooseWindow.translationX + 650f
-                        val newY = binding.CardViewChooseWindow.translationY
-                        binding.CardViewChooseWindow.translationX = newX
-                        binding.CardViewChooseWindow.translationY = newY
-                        binding.btnOpenChooseWindow.translationX = newX
-                        binding.btnOpenChooseWindow.translationY = newY
-                    }
-
-                    override fun onAnimationRepeat(animation: Animation) {}
-                })
-                binding.CardViewChooseWindow.startAnimation(translateAnimation)
-                binding.btnOpenChooseWindow.startAnimation(translateAnimation)
+            }
+            else {
+                val translateX = 620f
+                setAnimatorX(translateX,binding.CardViewChooseWindow)
+                setAnimatorX(translateX,binding.btnOpenChooseWindow)
                 binding.imgAnimChooseWindow.setImageResource(R.drawable.ic_left)
                 open = true
             }
         }
+    }
+
+    private fun setAnimatorX(translateX: Float, view: MaterialCardView,){
+        val translateAnimation = ObjectAnimator.ofFloat(view, "translationX", translateX)
+        translateAnimation.duration = 1000
+        translateAnimation.start()
     }
 
     private fun onCheckBoxClicked() {
