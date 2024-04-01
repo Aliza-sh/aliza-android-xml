@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import com.aliza.alizaandroid.databinding.FragmentAnimationFromXmlBinding
 
@@ -20,5 +21,10 @@ class FragmentAnimationFromXml : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        binding.btnAnim.setOnClickListener {
+            val animation = AnimationUtils.loadAnimation(context, R.anim.animation_ball);
+
+            binding.imgAnim.startAnimation(animation)
+        }
     }
 }
