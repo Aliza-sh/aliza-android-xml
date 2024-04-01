@@ -28,5 +28,13 @@ class MainActivity : AppCompatActivity() {
                 .commit()
         }
 
+        binding.btnFrgAnimationXml.setOnClickListener {
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction
+                .add(R.id.frame_container,FragmentAnimationFromXml(),null)
+                .addToBackStack(null)
+                .commit()
+        }
+
     }
 }
