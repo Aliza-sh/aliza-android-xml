@@ -51,4 +51,7 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
 
     implementation(libs.lottie)
+
+    implementation(libs.glide)
+    implementation(libs.glide.transformations)
 }

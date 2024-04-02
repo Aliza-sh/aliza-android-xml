@@ -44,5 +44,13 @@ class MainActivity : AppCompatActivity() {
                 .commit()
         }
 
+        binding.btnFrgAnimationRecyclerview.setOnClickListener {
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction
+                .add(R.id.frame_container,FragmentAnomationRecyclerview(),null)
+                .addToBackStack(null)
+                .commit()
+        }
+
     }
 }
