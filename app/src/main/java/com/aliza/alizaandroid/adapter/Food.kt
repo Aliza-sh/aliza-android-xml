@@ -1,4 +1,4 @@
-package com.aliza.alizaandroid
+package com.aliza.alizaandroid.adapter
 
 data class Food(
 

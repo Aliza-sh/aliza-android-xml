@@ -1,4 +1,4 @@
-package com.aliza.alizaandroid
+package com.aliza.alizaandroid.ui
 
 import android.animation.Animator
 import android.os.Bundle

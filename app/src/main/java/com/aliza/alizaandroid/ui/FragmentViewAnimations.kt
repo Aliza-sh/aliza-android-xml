@@ -1,11 +1,9 @@
-package com.aliza.alizaandroid
+package com.aliza.alizaandroid.ui
 
-import android.graphics.Interpolator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateInterpolator
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.view.animation.BounceInterpolator
@@ -13,6 +11,7 @@ import android.view.animation.RotateAnimation
 import android.view.animation.ScaleAnimation
 import android.view.animation.TranslateAnimation
 import androidx.fragment.app.Fragment
+import com.aliza.alizaandroid.R
 import com.aliza.alizaandroid.databinding.FragmentViewAnimationsBinding
 
 class FragmentViewAnimations : Fragment() {

@@ -1,4 +1,4 @@
-package com.aliza.alizaandroid
+package com.aliza.alizaandroid.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.aliza.alizaandroid.adapter.Food
+import com.aliza.alizaandroid.adapter.FoodAdapter
 import com.aliza.alizaandroid.databinding.FragmentAnomationRecyclerviewBinding
 
-class FragmentAnomationRecyclerview : Fragment(), FoodAdapter.FoodEvents  {
+class FragmentAnomationRecyclerview : Fragment(), FoodAdapter.FoodEvents {
 
     lateinit var binding: FragmentAnomationRecyclerviewBinding
     override fun onCreateView(
@@ -130,7 +132,8 @@ class FragmentAnomationRecyclerview : Fragment(), FoodAdapter.FoodEvents  {
                 "https://dunijet.ir/YaghootAndroidFiles/DuniFoodSimple/food12.jpg",
                 35,
                 2.5f
-            ),Food(
+            ),
+            Food(
                 "Hamburger",
                 "15",
                 "3",

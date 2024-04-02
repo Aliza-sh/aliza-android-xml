@@ -1,4 +1,4 @@
-package com.aliza.alizaandroid
+package com.aliza.alizaandroid.ui
 
 import android.animation.ObjectAnimator
 import android.os.Bundle
@@ -13,6 +13,7 @@ import android.view.animation.RotateAnimation
 import android.view.animation.ScaleAnimation
 import android.view.animation.TranslateAnimation
 import androidx.fragment.app.Fragment
+import com.aliza.alizaandroid.R
 import com.aliza.alizaandroid.databinding.FragmentAnimationSetBinding
 import com.google.android.material.card.MaterialCardView
 
