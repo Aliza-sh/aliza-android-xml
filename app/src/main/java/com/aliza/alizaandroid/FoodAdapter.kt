@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.aliza.alizaandroid.databinding.ItemFoodBinding
@@ -60,6 +61,7 @@ class FoodAdapter(private val data: ArrayList<Food>, private val foodEvents: Foo
 
     override fun onBindViewHolder(holder: FoodViewHolder, position: Int) {
         Log.v("testApp", "onBindViewHolder Called")
+        holder.itemView.startAnimation(AnimationUtils.loadAnimation(binding.root.context,R.anim.anim_recycler_item))
         holder.bindData(position)
     }
 
