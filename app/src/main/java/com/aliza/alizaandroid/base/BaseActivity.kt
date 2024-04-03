@@ -56,9 +56,8 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     }
     // Implement the following method in the caller class to return the name.
     /*
-    override fun shouldApplyAnimation(): Boolean {
-        val callerClassName = getCallerClassName()
-        return callerClassName == "Activity"
+    override fun getCallerClassName(): String {
+        return "Activity"
     }
     */
 
