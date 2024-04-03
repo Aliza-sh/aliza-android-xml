@@ -42,6 +42,25 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         onBackPressedCallback?.remove()
     }
 
+    //Method to get the name of the caller's class.
+    protected fun getCallerClassName(): String {
+        val stackTrace = Thread.currentThread().stackTrace
+        var callerClassName = ""
+        for (stackTraceElement in stackTrace) {
+            if (stackTraceElement.className != this.javaClass.name) {
+                callerClassName = stackTraceElement.className
+                break
+            }
+        }
+        return callerClassName
+    }
+    // Implement the following method in the caller class to return the name.
+    /*
+    override fun shouldApplyAnimation(): Boolean {
+        val callerClassName = getCallerClassName()
+        return callerClassName == "Activity"
+    }
+    */
 
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     override fun startActivity(intent: Intent) {
