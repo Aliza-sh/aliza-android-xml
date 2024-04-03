@@ -1,20 +1,16 @@
 package com.aliza.alizaandroid.ui
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.view.animation.BounceInterpolator
 import android.view.animation.RotateAnimation
 import android.view.animation.ScaleAnimation
 import android.view.animation.TranslateAnimation
-import android.widget.Toast
-import androidx.fragment.app.Fragment
 import com.aliza.alizaandroid.R
 import com.aliza.alizaandroid.databinding.FragmentViewAnimationsBinding
-import com.aliza.alizaandroid.ext.BaseFragment
+import com.aliza.alizaandroid.base.BaseFragment
 
 class FragmentViewAnimations : BaseFragment<FragmentViewAnimationsBinding>(
     FragmentViewAnimationsBinding::inflate
@@ -109,6 +105,7 @@ class FragmentViewAnimations : BaseFragment<FragmentViewAnimationsBinding>(
                     scaleAnimation!!.fillAfter = true
                     binding.imgAnimScale.startAnimation(scaleAnimation)
                 }
+
                 override fun onAnimationRepeat(animation: Animation?) {}
             })
         }
@@ -142,10 +139,12 @@ class FragmentViewAnimations : BaseFragment<FragmentViewAnimationsBinding>(
                         translateAnimation.fillAfter = true
                         binding.imgAnimTranslate.startAnimation(translateAnimation)
                     }
+
                     override fun onAnimationRepeat(animation: Animation?) {}
                 })
                 binding.imgAnimTranslate.startAnimation(translateAnimation)
             }
+
             override fun onAnimationRepeat(animation: Animation?) {}
         })
         return translateAnimation

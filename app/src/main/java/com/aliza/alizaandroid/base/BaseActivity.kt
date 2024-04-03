@@ -1,4 +1,4 @@
-package ir.dunijet.animation.ext
+package com.aliza.alizaandroid.base
 
 import android.content.Intent
 import android.os.Build
@@ -9,16 +9,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.aliza.alizaandroid.R
 
-abstract class BaseActivity<VB:ViewBinding> : AppCompatActivity() {
+abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
     lateinit var binding: VB
-    abstract fun inflateBinding():VB
+    abstract fun inflateBinding(): VB
 
     private var onBackPressedCallback: OnBackPressedCallback? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding =inflateBinding()
+        binding = inflateBinding()
         setContentView(binding.root)
 
         onBackPressedCallback = object : OnBackPressedCallback(true) {
@@ -36,6 +36,7 @@ abstract class BaseActivity<VB:ViewBinding> : AppCompatActivity() {
         }
         onBackPressedDispatcher.addCallback(this, onBackPressedCallback!!)
     }
+
     override fun onDestroy() {
         super.onDestroy()
         onBackPressedCallback?.remove()
@@ -47,11 +48,13 @@ abstract class BaseActivity<VB:ViewBinding> : AppCompatActivity() {
         super.startActivity(intent)
         overridePendingTransitionEnter()
     }
+
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     override fun finish() {
         super.finish()
         overridePendingTransitionExit()
     }
+
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     private fun overridePendingTransitionEnter() {
         if (Build.VERSION.SDK_INT >= 34) {
@@ -64,10 +67,12 @@ abstract class BaseActivity<VB:ViewBinding> : AppCompatActivity() {
         } else {
             overridePendingTransition(
                 R.anim.anim_slide_from_right,
-                R.anim.anim_slide_to_left)
+                R.anim.anim_slide_to_left
+            )
         }
 
     }
+
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     private fun overridePendingTransitionExit() {
         if (Build.VERSION.SDK_INT >= 34) {

@@ -1,4 +1,4 @@
-package com.aliza.alizaandroid.ext
+package com.aliza.alizaandroid.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,14 +11,14 @@ import androidx.viewbinding.ViewBinding
 import com.aliza.alizaandroid.R
 import java.lang.IllegalArgumentException
 
-
 abstract class BaseFragment<VB : ViewBinding>(
     private val bindingInflater: (inflater: LayoutInflater) -> VB
 ) : Fragment() {
 
-    private var _binding :VB? = null
-    val binding :VB
+    private var _binding: VB? = null
+    val binding: VB
         get() = _binding as VB
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -29,10 +29,12 @@ abstract class BaseFragment<VB : ViewBinding>(
             throw IllegalArgumentException("binding cannot be null")
         return binding.root
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
     override fun onCreateAnimation(transit: Int, enter: Boolean, nextAnim: Int): Animation {
         return if (enter) {
             AnimationUtils.loadAnimation(context, R.anim.anim_slide_in_right)
