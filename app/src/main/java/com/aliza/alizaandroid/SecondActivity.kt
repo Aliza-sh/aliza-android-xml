@@ -1,15 +1,14 @@
 package com.aliza.alizaandroid
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import com.aliza.alizaandroid.databinding.ActivitySecondBinding
+import ir.dunijet.animation.ext.BaseActivity
 
-class SecondActivity : AppCompatActivity() {
-    lateinit var binding: ActivitySecondBinding
+class SecondActivity : BaseActivity<ActivitySecondBinding>() {
+    override fun inflateBinding()= ActivitySecondBinding.inflate(layoutInflater)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivitySecondBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
     }
 

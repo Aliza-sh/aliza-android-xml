@@ -8,18 +8,12 @@ import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import com.aliza.alizaandroid.R
 import com.aliza.alizaandroid.databinding.FragmentAnimationFromXmlBinding
+import com.aliza.alizaandroid.databinding.FragmentViewAnimationsBinding
+import com.aliza.alizaandroid.ext.BaseFragment
 
-class FragmentAnimationFromXml : Fragment() {
-    lateinit var binding: FragmentAnimationFromXmlBinding
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentAnimationFromXmlBinding.inflate(layoutInflater,container,false)
-        return binding.root
-    }
-
+class FragmentAnimationFromXml : BaseFragment<FragmentAnimationFromXmlBinding>(
+    FragmentAnimationFromXmlBinding::inflate
+){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         binding.btnAnim.setOnClickListener {

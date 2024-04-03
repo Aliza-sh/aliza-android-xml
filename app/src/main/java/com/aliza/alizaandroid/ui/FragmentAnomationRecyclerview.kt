@@ -10,20 +10,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aliza.alizaandroid.adapter.Food
 import com.aliza.alizaandroid.adapter.FoodAdapter
 import com.aliza.alizaandroid.databinding.FragmentAnomationRecyclerviewBinding
+import com.aliza.alizaandroid.databinding.FragmentViewAnimationsBinding
+import com.aliza.alizaandroid.ext.BaseFragment
 
-class FragmentAnomationRecyclerview : Fragment(), FoodAdapter.FoodEvents {
-
-    lateinit var binding: FragmentAnomationRecyclerviewBinding
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentAnomationRecyclerviewBinding.inflate(layoutInflater,container,false)
-        return binding.root
-    }
+class FragmentAnomationRecyclerview : BaseFragment<FragmentAnomationRecyclerviewBinding>(
+    FragmentAnomationRecyclerviewBinding::inflate
+), FoodAdapter.FoodEvents {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         val foodList = arrayListOf(
             Food(
                 "Hamburger",

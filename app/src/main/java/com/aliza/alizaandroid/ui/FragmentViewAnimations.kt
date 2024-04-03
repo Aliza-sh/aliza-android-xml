@@ -10,21 +10,15 @@ import android.view.animation.BounceInterpolator
 import android.view.animation.RotateAnimation
 import android.view.animation.ScaleAnimation
 import android.view.animation.TranslateAnimation
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.aliza.alizaandroid.R
 import com.aliza.alizaandroid.databinding.FragmentViewAnimationsBinding
+import com.aliza.alizaandroid.ext.BaseFragment
 
-class FragmentViewAnimations : Fragment() {
-
-    lateinit var binding: FragmentViewAnimationsBinding
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentViewAnimationsBinding.inflate(layoutInflater, container, false)
-        return binding.root
-    }
+class FragmentViewAnimations : BaseFragment<FragmentViewAnimationsBinding>(
+    FragmentViewAnimationsBinding::inflate
+) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 

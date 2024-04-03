@@ -8,18 +8,12 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import androidx.fragment.app.Fragment
 import com.aliza.alizaandroid.databinding.FragmentAnimationsLottieBinding
+import com.aliza.alizaandroid.databinding.FragmentViewAnimationsBinding
+import com.aliza.alizaandroid.ext.BaseFragment
 
-class FragmentAnimationsLottie : Fragment() {
-
-    lateinit var binding: FragmentAnimationsLottieBinding
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentAnimationsLottieBinding.inflate(layoutInflater,container,false)
-        return binding.root
-    }
+class FragmentAnimationsLottie : BaseFragment<FragmentAnimationsLottieBinding>(
+    FragmentAnimationsLottieBinding::inflate
+) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 

@@ -15,22 +15,15 @@ import android.view.animation.TranslateAnimation
 import androidx.fragment.app.Fragment
 import com.aliza.alizaandroid.R
 import com.aliza.alizaandroid.databinding.FragmentAnimationSetBinding
+import com.aliza.alizaandroid.databinding.FragmentViewAnimationsBinding
+import com.aliza.alizaandroid.ext.BaseFragment
 import com.google.android.material.card.MaterialCardView
 
 
-class FragmentAnimationSet : Fragment() {
-
-    lateinit var binding: FragmentAnimationSetBinding
+class FragmentAnimationSet : BaseFragment<FragmentAnimationSetBinding>(
+    FragmentAnimationSetBinding::inflate
+) {
     lateinit var animationSet: AnimationSet
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentAnimationSetBinding.inflate(layoutInflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         animationSet = AnimationSet(true)
