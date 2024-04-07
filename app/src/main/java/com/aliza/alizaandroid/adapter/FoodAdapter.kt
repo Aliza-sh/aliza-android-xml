@@ -1,12 +1,14 @@
-package com.aliza.alizaandroid
+package com.aliza.alizaandroid.adapter
 
 import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.aliza.alizaandroid.DB.Food
+import com.aliza.alizaandroid.R
 import com.aliza.alizaandroid.databinding.ItemFoodBinding
 import com.bumptech.glide.Glide
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation
@@ -93,6 +95,10 @@ class FoodAdapter(private val data: ArrayList<Food>, private val foodEvents: Foo
 
     override fun onBindViewHolder(holder: FoodViewHolder, position: Int) {
         Log.v("testApp", "onBindViewHolder Called")
+        holder.itemView.startAnimation(
+            AnimationUtils.loadAnimation(binding.root.context,
+            R.anim.anim_fall_down
+        ))
         holder.bindData(position)
     }
 

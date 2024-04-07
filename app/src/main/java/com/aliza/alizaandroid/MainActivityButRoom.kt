@@ -8,20 +8,20 @@ import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aliza.alizaandroid.DB.Food
+import com.aliza.alizaandroid.adapter.FoodAdapter
+import com.aliza.alizaandroid.base.BaseActivity
 import com.aliza.alizaandroid.databinding.ActivityMainBinding
 import com.aliza.alizaandroid.databinding.DialogAddNewItemBinding
 import com.aliza.alizaandroid.databinding.DialogDeleteItemBinding
 import com.aliza.alizaandroid.databinding.DialogUpdateItemBinding
 
-class MainActivityButRoom : AppCompatActivity(), FoodAdapter.FoodEvents {
-    private lateinit var binding: ActivityMainBinding
+class MainActivityButRoom : BaseActivity<ActivityMainBinding>(), FoodAdapter.FoodEvents {
     lateinit var myAdapter: FoodAdapter
     lateinit var foodList: ArrayList<Food>
+    override fun inflateBinding(): ActivityMainBinding =ActivityMainBinding.inflate(layoutInflater)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
         // how to use recycler view :
         // 1. create view of recyclerView in activity_main.xml

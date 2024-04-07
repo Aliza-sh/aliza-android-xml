@@ -5,13 +5,14 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aliza.alizaandroid.DB.Food
 import com.aliza.alizaandroid.DB.FoodDao
 import com.aliza.alizaandroid.DB.FoodDatabase
+import com.aliza.alizaandroid.adapter.FoodAdapter
+import com.aliza.alizaandroid.base.BaseActivity
 import com.aliza.alizaandroid.databinding.ActivityMainBinding
 import com.aliza.alizaandroid.databinding.DialogAddNewItemBinding
 import com.aliza.alizaandroid.databinding.DialogDeleteItemBinding
@@ -22,16 +23,14 @@ import kotlin.collections.ArrayList
 const val TAG_MAIN_ACTIVIRY = "myActivity"
 const val BASE_URL_IMAGE = "https://dunijet.ir/YaghootAndroidFiles/DuniFoodSimple/food"
 
-class MainActivity : AppCompatActivity(), FoodAdapter.FoodEvents {
-    lateinit var binding: ActivityMainBinding
+class MainActivity : BaseActivity<ActivityMainBinding>(), FoodAdapter.FoodEvents {
     lateinit var myAdapter: FoodAdapter
     lateinit var foodDao: FoodDao
+    override fun inflateBinding(): ActivityMainBinding =ActivityMainBinding.inflate(layoutInflater)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.v(TAG_MAIN_ACTIVIRY, "onCreate called")
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
         foodDao = FoodDatabase.getDatabase(this).foodDao
 

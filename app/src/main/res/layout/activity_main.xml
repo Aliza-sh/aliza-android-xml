@@ -72,6 +72,7 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:layoutAnimation="@anim/anim_load_recycler"
         android:id="@+id/recyclerMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
