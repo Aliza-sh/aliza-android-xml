@@ -20,9 +20,6 @@ import com.aliza.alizaandroid.databinding.DialogUpdateItemBinding
 import java.util.*
 import kotlin.collections.ArrayList
 
-const val TAG_MAIN_ACTIVIRY = "myActivity"
-const val BASE_URL_IMAGE = "https://dunijet.ir/YaghootAndroidFiles/DuniFoodSimple/food"
-
 class MainActivity : BaseActivity<ActivityMainBinding>(), FoodAdapter.FoodEvents {
     lateinit var myAdapter: FoodAdapter
     lateinit var foodDao: FoodDao
@@ -34,10 +31,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), FoodAdapter.FoodEvents
 
         foodDao = FoodDatabase.getDatabase(this).foodDao
 
-        val sharedPreferences = getSharedPreferences("AlizaFood", Context.MODE_PRIVATE)
-        if (sharedPreferences.getBoolean("firstRun", true)) {
+        val sharedPreferences = getSharedPreferences(SHAREDPREFERENCES_ALIZAFOOD, Context.MODE_PRIVATE)
+        if (sharedPreferences.getBoolean(FIRSTRUN, true)) {
             firstRun()
-            sharedPreferences.edit().putBoolean("firstRun", false).apply()
+            sharedPreferences.edit().putBoolean(FIRSTRUN, false).apply()
         }
 
         showAllFood()
