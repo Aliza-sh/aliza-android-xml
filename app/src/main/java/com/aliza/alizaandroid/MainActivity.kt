@@ -290,7 +290,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), FoodAdapter.FoodEvents
                     ratingBar = food.ratingBar
                 )
                 myAdapter.updateFood(newFood, position)
-                foodDao.insert(newFood)
+                foodDao.update(newFood)
 
                 dialog.dismiss()
             } else {
