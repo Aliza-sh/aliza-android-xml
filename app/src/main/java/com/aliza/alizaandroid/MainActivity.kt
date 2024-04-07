@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aliza.alizaandroid.DB.Food
 import com.aliza.alizaandroid.DB.FoodDao
-import com.aliza.alizaandroid.DB.FoodDatabase
+import com.aliza.alizaandroid.DB.MyDatabase
 import com.aliza.alizaandroid.adapter.FoodAdapter
 import com.aliza.alizaandroid.base.BaseActivity
 import com.aliza.alizaandroid.databinding.ActivityMainBinding
@@ -29,7 +29,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), FoodAdapter.FoodEvents
         Log.v(TAG_MAIN_ACTIVIRY, "onCreate called")
         super.onCreate(savedInstanceState)
 
-        foodDao = FoodDatabase.getDatabase(this).foodDao
+        foodDao = MyDatabase.getDatabase(this).foodDao
 
         val sharedPreferences = getSharedPreferences(SHAREDPREFERENCES_ALIZAFOOD, Context.MODE_PRIVATE)
         if (sharedPreferences.getBoolean(FIRSTRUN, true)) {
@@ -171,7 +171,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), FoodAdapter.FoodEvents
 
     private fun showAllFood() {
 
-        val allFood = foodDao.getAllFood()
+        val allFood = foodDao.getAll()
         myAdapter = FoodAdapter(ArrayList(allFood), this)
         binding.recyclerMain.adapter = myAdapter
         binding.recyclerMain.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
@@ -181,7 +181,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), FoodAdapter.FoodEvents
     }
     private fun clearAllFood() {
 
-        foodDao.deleteAllFood()
+        foodDao.deleteAll()
         showAllFood()
 
     }
@@ -224,7 +224,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), FoodAdapter.FoodEvents
                     ratingBar = ratingBar
                 )
                 myAdapter.addFood(newFood)
-                foodDao.insertOrUpdateFood(newFood)
+                foodDao.insert(newFood)
 
                 dialog.dismiss()
                 binding.recyclerMain.scrollToPosition(0)
@@ -240,11 +240,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), FoodAdapter.FoodEvents
 
 
         if (editText.isNotEmpty()) {
-            val searchFood = foodDao.searchFood(editText)
+            val searchFood = foodDao.search(editText)
             myAdapter.setData(ArrayList(searchFood))
 
         } else {
-            val allFood = foodDao.getAllFood()
+            val allFood = foodDao.getAll()
             myAdapter.setData(ArrayList(allFood))
         }
     }
@@ -290,7 +290,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), FoodAdapter.FoodEvents
                     ratingBar = food.ratingBar
                 )
                 myAdapter.updateFood(newFood, position)
-                foodDao.insertOrUpdateFood(newFood)
+                foodDao.insert(newFood)
 
                 dialog.dismiss()
             } else {
@@ -313,7 +313,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), FoodAdapter.FoodEvents
         deleteDialogBinding.dialogBtnDeleteSure.setOnClickListener {
             dialog.dismiss()
             myAdapter.removeFood(food, position)
-            foodDao.deleteFood(food)
+            foodDao.delete(food)
         }
     }
 }
