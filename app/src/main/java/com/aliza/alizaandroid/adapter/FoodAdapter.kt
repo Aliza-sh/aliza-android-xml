@@ -72,7 +72,7 @@ class FoodAdapter(private val data: ArrayList<Food>, private val foodEvents: Foo
                 //Toast.makeText(context, "clicked on ${txtSubject.text}", Toast.LENGTH_SHORT).show()
                 Toast.makeText(
                     binding.root.context,
-                    "clicked on ${binding.itemTxtSubject.text}",
+                    "clicked on ${data[position].txtSubject}",
                     Toast.LENGTH_SHORT
                 ).show()
             }
