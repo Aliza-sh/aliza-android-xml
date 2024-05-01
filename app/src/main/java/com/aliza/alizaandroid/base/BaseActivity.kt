@@ -16,12 +16,18 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
     private var onBackPressedCallback: OnBackPressedCallback? = null
 
+<<<<<<< HEAD
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+=======
+>>>>>>> aliza-food
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = inflateBinding()
         setContentView(binding.root)
+<<<<<<< HEAD
         overridePendingTransitionEnter()
+=======
+>>>>>>> aliza-food
 
         onBackPressedCallback = object : OnBackPressedCallback(true) {
             @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
@@ -29,7 +35,10 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
                 // Check if there are any fragments in the back stack
                 if (supportFragmentManager.backStackEntryCount > 0) {
                     // Pop the fragment from the back stack
+<<<<<<< HEAD
                     onBack()
+=======
+>>>>>>> aliza-food
                     supportFragmentManager.popBackStack()
                 } else {
                     // Close the activity
@@ -39,7 +48,10 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         }
         onBackPressedDispatcher.addCallback(this, onBackPressedCallback!!)
     }
+<<<<<<< HEAD
     open fun onBack(){}
+=======
+>>>>>>> aliza-food
 
     override fun onDestroy() {
         super.onDestroy()
