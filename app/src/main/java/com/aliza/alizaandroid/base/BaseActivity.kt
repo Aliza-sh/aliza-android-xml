@@ -1,6 +1,8 @@
 package com.aliza.alizaandroid.base
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
@@ -26,8 +28,11 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         onBackPressedCallback = object : OnBackPressedCallback(true) {
             @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
             override fun handleOnBackPressed() {
+                // Check Orientation
+                if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE){
+                    requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT
                 // Check if there are any fragments in the back stack
-                if (supportFragmentManager.backStackEntryCount > 0) {
+                } else if (supportFragmentManager.backStackEntryCount > 0) {
                     // Pop the fragment from the back stack
                     onBack()
                     supportFragmentManager.popBackStack()
