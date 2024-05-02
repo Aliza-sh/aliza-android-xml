@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <HorizontalScrollView
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="16dp"
         android:layout_width="match_parent"
         android:scrollbars="none"
         android:layout_height="wrap_content"
@@ -60,6 +60,22 @@
                     android:layout_marginEnd="30dp"
                     android:layout_marginStart="30dp"
                     android:text="ExoPlayer" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_margin="10dp"
+                app:cardElevation="5dp"
+                android:id="@+id/btn_frg_exoPlayer_custom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginStart="30dp"
+                    android:text="ExoPlayer Custom" />
             </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
