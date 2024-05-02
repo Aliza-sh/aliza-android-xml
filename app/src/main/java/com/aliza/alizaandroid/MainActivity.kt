@@ -6,6 +6,7 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.aliza.alizaandroid.base.BaseActivity
 import com.aliza.alizaandroid.databinding.ActivityMainBinding
+import com.aliza.alizaandroid.ui.FragmentExoPlayer
 import com.aliza.alizaandroid.ui.FragmentVideoView
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
@@ -17,6 +18,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         binding.btnFrgVideoView.setOnClickListener {
             transactionFragment(FragmentVideoView())
+        }
+
+        binding.btnFrgExoPlayer.setOnClickListener {
+            transactionFragment(FragmentExoPlayer())
         }
 
     }
