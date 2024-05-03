@@ -1,3 +1,3 @@
 package com.aliza.alizaandroid.net
 
-const val BASE_URL = "http://192.168.43.236:8080"
+const val BASE_URL = "http://192.168.131.95:8080"

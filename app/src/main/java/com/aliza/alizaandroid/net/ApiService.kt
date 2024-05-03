@@ -10,4 +10,6 @@ interface ApiService {
     @GET("/student")
     fun getAllStudents(): Call<List<Student>>
 
+    @POST("/student")
+    fun insertStudent(@Body body: JsonObject): Call<Int>
 }

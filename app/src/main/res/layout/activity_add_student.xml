@@ -85,6 +85,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edtScore"
+                android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -100,6 +101,9 @@
         android:layout_marginBottom="16dp"
         android:fontFamily="@font/primary_bold"
         android:text="save"
+        android:textColor="@color/white"
+        app:iconTint="@color/white"
+        android:backgroundTint="?attr/colorSecondary"
         app:icon="@drawable/ic_done_white_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

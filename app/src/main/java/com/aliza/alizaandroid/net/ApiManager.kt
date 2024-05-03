@@ -1,6 +1,8 @@
 package com.aliza.alizaandroid.net
 
 import com.aliza.alizaandroid.net.model.Student
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonObject
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -64,6 +66,28 @@ class ApiManager {
             }
         }
         return newData
+    }
+
+    fun insertStudent(body: JsonObject, apiCallback: ApiCallback<Int>) {
+        apiService.insertStudent(body).enqueue(object : Callback<Int> {
+            override fun onResponse(call: Call<Int>, response: Response<Int>) {
+                if (response.isSuccessful) {
+                    val data = response.body()
+                    if (data != null) {
+                        apiCallback.onSuccess(data)
+                    } else {
+                        // Handle api null
+                        apiCallback.onError("data is null")
+                    }
+                } else {
+                    // Handle api error
+                    apiCallback.onError("Error: " + response.code())
+                }
+            }
+            override fun onFailure(call: Call<Int>, t: Throwable) {
+                apiCallback.onError(t.message!!)
+            }
+        })
     }
 
 
