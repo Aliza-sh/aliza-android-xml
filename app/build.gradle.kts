@@ -53,4 +53,8 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
 
     implementation(libs.androidx.swiperefreshlayout)
+
+    // retrofit library :
+    implementation (libs.retrofit)
+    implementation (libs.converter.gson)
 }
