@@ -15,4 +15,7 @@ interface ApiService {
 
     @PUT("/student/updating{name}")
     fun updateStudent( @Path("name") name:String , @Body body :JsonObject ) :Call<Int>
+
+    @DELETE("/student/deleting{name}")
+    fun deleteStudent( @Path("name") name:String ) :Call<Int>
 }

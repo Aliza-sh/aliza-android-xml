@@ -18,6 +18,7 @@ import com.aliza.alizaandroid.base.showSnackbar
 import com.aliza.alizaandroid.databinding.ActivityStudentBinding
 import com.aliza.alizaandroid.net.ApiManager
 import com.aliza.alizaandroid.net.model.Student
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.StudentEvent {
     override fun inflateBinding(): ActivityStudentBinding =
@@ -95,6 +96,28 @@ class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.S
         startActivity(intent)
     }
 
-    override fun onItemLongClicked(student: Student, position: Int) {}
+    override fun onItemLongClicked(student: Student, position: Int) {
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Delete this Item?")
+            .setPositiveButton("confirm") { dialog, which ->
+                deleteDataFromServer(student, position)
+                dialog.dismiss()
+            }
+            .setNegativeButton("cancel") { dialog, which ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun deleteDataFromServer(student: Student, position: Int) {
+        apiManager.deleteStudent(student.name, object : ApiManager.ApiCallback<Int> {
+            override fun onSuccess(data: Int) {
+                myAdapter.removeItem(student, position)
+            }
+            override fun onError(errorMessage: String) {
+                Log.v("testApi", errorMessage)
+            }
+        })
+    }
 
 }

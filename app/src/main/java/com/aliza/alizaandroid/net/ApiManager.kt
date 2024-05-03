@@ -116,6 +116,28 @@ class ApiManager {
         })
     }
 
+    fun deleteStudent(nameStudent: String, apiCallback: ApiCallback<Int>) {
+        apiService.deleteStudent(nameStudent).enqueue(object : Callback<Int> {
+            override fun onResponse(call: Call<Int>, response: Response<Int>) {
+                if (response.isSuccessful) {
+                    val data = response.body()
+                    if (data != null) {
+                        apiCallback.onSuccess(data)
+                    } else {
+                        // Handle api null
+                        apiCallback.onError("data is null")
+                    }
+                } else {
+                    // Handle api error
+                    apiCallback.onError("Error: " + response.code())
+                }
+            }
+            override fun onFailure(call: Call<Int>, t: Throwable) {
+                apiCallback.onError(t.message!!)
+            }
+        })
+    }
+
     interface ApiCallback<T> {
         fun onSuccess(data: T)
         fun onError(errorMessage: String)
