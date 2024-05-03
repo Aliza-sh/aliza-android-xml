@@ -12,4 +12,7 @@ interface ApiService {
 
     @POST("/student")
     fun insertStudent(@Body body: JsonObject): Call<Int>
+
+    @PUT("/student/updating{name}")
+    fun updateStudent( @Path("name") name:String , @Body body :JsonObject ) :Call<Int>
 }

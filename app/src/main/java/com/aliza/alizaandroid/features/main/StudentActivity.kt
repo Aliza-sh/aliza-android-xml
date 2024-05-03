@@ -10,6 +10,7 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.aliza.alizaandroid.EXTRA_STUDENT
 import com.aliza.alizaandroid.features.AddStudentActivity
 import com.aliza.alizaandroid.base.BaseActivity
 import com.aliza.alizaandroid.base.NetworkChecker
@@ -83,7 +84,16 @@ class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.S
         binding.recyclerMain.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
     }
 
-    override fun onItemClicked(student: Student, position: Int) {}
+    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+    override fun onItemClicked(student: Student, position: Int) {
+        updateDataInServer(student)
+    }
+    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+    private fun updateDataInServer(student: Student) {
+        val intent = Intent(this, AddStudentActivity::class.java)
+        intent.putExtra(EXTRA_STUDENT, student)
+        startActivity(intent)
+    }
 
     override fun onItemLongClicked(student: Student, position: Int) {}
 

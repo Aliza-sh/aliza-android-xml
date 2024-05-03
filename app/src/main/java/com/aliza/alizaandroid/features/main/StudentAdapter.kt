@@ -50,6 +50,14 @@ class StudentAdapter(val data: ArrayList<Student>, val studentEvent: StudentEven
         return data.size
     }
 
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
+
 
     fun removeItem(student: Student, position: Int) {
         data.remove(student)
