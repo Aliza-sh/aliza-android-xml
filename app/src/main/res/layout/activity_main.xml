@@ -6,13 +6,48 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
+    <Button
+        android:id="@+id/btnSimpleNotification"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="Simple Notification"
+        app:layout_constraintBottom_toTopOf="@+id/btnBigPictureStyleNotification"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <Button
+        android:id="@+id/btnBigPictureStyleNotification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Big Picture Style"
+        app:layout_constraintBottom_toTopOf="@+id/btnBigTextStyleNotification"
+        app:layout_constraintEnd_toEndOf="@+id/btnSimpleNotification"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/btnSimpleNotification"
+        app:layout_constraintTop_toBottomOf="@+id/btnSimpleNotification" />
+
+    <Button
+        android:id="@+id/btnBigTextStyleNotification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Big Text Style"
+        app:layout_constraintBottom_toTopOf="@+id/btnInboxStyleNotification"
+        app:layout_constraintEnd_toEndOf="@+id/btnBigPictureStyleNotification"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/btnBigPictureStyleNotification"
+        app:layout_constraintTop_toBottomOf="@+id/btnBigPictureStyleNotification" />
+
+    <Button
+        android:id="@+id/btnInboxStyleNotification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Inbox Style"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/btnBigTextStyleNotification"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/btnBigTextStyleNotification"
+        app:layout_constraintTop_toBottomOf="@+id/btnBigTextStyleNotification" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
