@@ -7,12 +7,199 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/txtTop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="8dp"
+        android:text="Now Playing"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/frameCover"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/frame_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtTop">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imageCover"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center"
+            android:padding="3dp"
+            android:src="@drawable/music_cover"
+            app:shapeAppearance="@style/roundedImageViewRounded"
+            app:strokeColor="@color/white"
+            app:strokeWidth="2dp" />
+
+        <com.google.android.material.card.MaterialCardView
+            app:cardCornerRadius="50dp"
+            app:cardBackgroundColor="@color/black"
+            android:elevation="20dp"
+            app:strokeWidth="2dp"
+            app:strokeColor="@color/white"
+            android:layout_gravity="center"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/frame_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/linearLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/frameCover">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sob Zohr Shab"
+            android:textColor="@color/white"
+            android:textSize="32sp" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Ho3ein"
+            android:textColor="@color/white_text"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:background="?selectableItemBackgroundBorderless"
+        android:id="@+id/btnLoop"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:padding="5dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/ic_repeat"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/bottomSection"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/sliderMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:valueFrom="0"
+            android:valueTo="100"
+            app:labelBehavior="gone"
+            app:trackHeight="6dp" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp">
+
+            <TextView
+                android:id="@+id/txtLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginStart="8dp"
+                android:text="00:00"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/txtRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="8dp"
+                android:text="00:00"
+                android:textColor="@color/white" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottomSection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="36dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:background="?selectableItemBackgroundBorderless"
+            android:id="@+id/btnVolumeOnOff"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="12dp"
+            android:src="@drawable/ic_volume_on" />
+
+        <ImageView
+            android:background="?selectableItemBackgroundBorderless"
+            android:id="@+id/btnGoBefore"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="12dp"
+            android:padding="16dp"
+            android:src="@drawable/ic_before" />
+
+        <ImageView
+            android:id="@+id/btnPlayPause"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/shape_play"
+            android:padding="16dp"
+            android:src="@drawable/ic_play" />
+
+        <ImageView
+            android:background="?selectableItemBackgroundBorderless"
+            android:id="@+id/btnGoAfter"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="12dp"
+            android:padding="16dp"
+            android:src="@drawable/ic_next" />
+
+        <com.varunest.sparkbutton.SparkButton
+            android:id="@+id/spark_button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            app:sparkbutton_activeImage="@drawable/ic_heart_selected"
+            app:sparkbutton_iconSize="20dp"
+            app:sparkbutton_inActiveImage="@drawable/ic_heart_not_selected"
+            app:sparkbutton_primaryColor="@color/colorRed"
+            app:sparkbutton_secondaryColor="@color/colorRed" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
