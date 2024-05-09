@@ -1,4 +1,4 @@
-package com.aliza.alizaandroid.chainWorkers
+package com.aliza.alizaandroid.workers.chainWorkers
 
 import android.content.Context
 import android.util.Log
@@ -7,7 +7,7 @@ import androidx.work.WorkerParameters
 import androidx.work.workDataOf
 import java.lang.Exception
 
-class WorkerEditImag(context: Context, workerParams: WorkerParameters) :
+class WorkerDownLoadImag(context: Context, workerParams: WorkerParameters) :
     Worker(context, workerParams) {
 
     override fun doWork(): Result {
@@ -15,9 +15,10 @@ class WorkerEditImag(context: Context, workerParams: WorkerParameters) :
         return try {
 
             val result = doMyJob()
+
             Result.success(
                 workDataOf(
-                    "editImage" to result
+                    "image" to result
                 )
             )
 
@@ -31,17 +32,17 @@ class WorkerEditImag(context: Context, workerParams: WorkerParameters) :
 
     private fun doMyJob(): String {
 
-        val editedImage = inputData.getString("image")
+        val urlImage = inputData.getString("urlImage")
 
         Thread.sleep(5000)
 
-        if (editedImage != null) {
+        if (urlImage != null) {
             Log.v(
                 "chainWorkers",
-                "Edit Image..."
+                "DownLoad Image..."
             )
         }
-        return "image edited"
+        return "image"
     }
 
 }

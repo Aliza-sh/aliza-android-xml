@@ -1,4 +1,4 @@
-package com.aliza.alizaandroid
+package com.aliza.alizaandroid.workers
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -12,6 +12,8 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import com.aliza.alizaandroid.MainActivity
+import com.aliza.alizaandroid.R
 
 class PeriodicWorker(private val context: Context, workerParams: WorkerParameters) :
     Worker(context, workerParams) {
@@ -51,7 +53,7 @@ class PeriodicWorker(private val context: Context, workerParams: WorkerParameter
             .setSmallIcon(R.drawable.img_logo)
             .setLargeIcon(
                 BitmapFactory.decodeResource(context.resources,
-                R.drawable.img_logo
+                    R.drawable.img_logo
             ))
             .setContentTitle("periodic Worker")
             .setContentText("periodic Worker Running")

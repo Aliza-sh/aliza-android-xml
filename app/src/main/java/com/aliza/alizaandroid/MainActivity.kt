@@ -17,10 +17,13 @@ import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.aliza.alizaandroid.base.BaseActivity
-import com.aliza.alizaandroid.chainWorkers.WorkerDownLoadImag
-import com.aliza.alizaandroid.chainWorkers.WorkerEditImag
-import com.aliza.alizaandroid.chainWorkers.WorkerSaveImag
+import com.aliza.alizaandroid.workers.chainWorkers.WorkerDownLoadImag
+import com.aliza.alizaandroid.workers.chainWorkers.WorkerEditImag
+import com.aliza.alizaandroid.workers.chainWorkers.WorkerSaveImag
 import com.aliza.alizaandroid.databinding.ActivityMainBinding
+import com.aliza.alizaandroid.workers.PeriodicWorker
+import com.aliza.alizaandroid.workers.SampleOneTimeWorker
+import com.aliza.alizaandroid.workers.SendAndReceiveDataOneTimeWorker
 import java.util.concurrent.TimeUnit
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {

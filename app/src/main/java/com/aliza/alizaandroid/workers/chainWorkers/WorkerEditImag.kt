@@ -1,4 +1,4 @@
-package com.aliza.alizaandroid.chainWorkers
+package com.aliza.alizaandroid.workers.chainWorkers
 
 import android.content.Context
 import android.util.Log
@@ -7,7 +7,7 @@ import androidx.work.WorkerParameters
 import androidx.work.workDataOf
 import java.lang.Exception
 
-class WorkerSaveImag(context: Context, workerParams: WorkerParameters) :
+class WorkerEditImag(context: Context, workerParams: WorkerParameters) :
     Worker(context, workerParams) {
 
     override fun doWork(): Result {
@@ -17,7 +17,7 @@ class WorkerSaveImag(context: Context, workerParams: WorkerParameters) :
             val result = doMyJob()
             Result.success(
                 workDataOf(
-                    "imageSave" to result
+                    "editImage" to result
                 )
             )
 
@@ -31,18 +31,17 @@ class WorkerSaveImag(context: Context, workerParams: WorkerParameters) :
 
     private fun doMyJob(): String {
 
-        val savedImage = inputData.getString("editImage")
+        val editedImage = inputData.getString("image")
 
         Thread.sleep(5000)
 
-        if (savedImage != null) {
+        if (editedImage != null) {
             Log.v(
                 "chainWorkers",
-                "Saved Image..."
+                "Edit Image..."
             )
         }
-        return "image Saved"
+        return "image edited"
     }
-
 
 }
