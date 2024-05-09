@@ -1,16 +1,22 @@
 package com.aliza.alizaandroid
 
+import android.Manifest.permission.POST_NOTIFICATIONS
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.work.OneTimeWorkRequest
 import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.aliza.alizaandroid.base.BaseActivity
 import com.aliza.alizaandroid.databinding.ActivityMainBinding
+import java.util.concurrent.TimeUnit
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun inflateBinding() = ActivityMainBinding.inflate(layoutInflater)
@@ -25,10 +31,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         // 1. create work manager =>
         workManager = WorkManager.getInstance(this)
+//************************************************************
 
         // 2. create our work =>
         sampleOneTimeWorker()
         sendAndReceiveDataOneTimeWorker()
+//************************************************************
 
         // 3. work manager should do works =>
         workManager.enqueue(sampleOneTimeWorker)
@@ -46,6 +54,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     }
                 }
             }
+
+        requestNotificationPermission{
+            periodicWorker()
+        }
+//************************************************************
+
     }
 
     private fun sampleOneTimeWorker() {
@@ -66,5 +80,32 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 )
                 .addTag("sendAndReceiveDataOneTimeWorker")
                 .build()
+    }
+
+    private fun periodicWorker() {
+        workManager.enqueue(
+            PeriodicWorkRequestBuilder<PeriodicWorker>(
+                1, TimeUnit.MINUTES,
+            )
+                .addTag("periodicWorker")
+                .build()
+        )
+    }
+    private fun requestNotificationPermission(onPermissionGranted: () -> Unit) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(POST_NOTIFICATIONS),
+                    1
+                )
+            } else {
+                onPermissionGranted()
+            }
+        } else {
+            //Handle notification permission request for pre-Android 13 versions (if needed)
+        }
     }
 }
