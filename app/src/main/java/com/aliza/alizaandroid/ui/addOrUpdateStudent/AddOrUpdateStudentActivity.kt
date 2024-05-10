@@ -1,34 +1,33 @@
-package com.aliza.alizaandroid.features
+package com.aliza.alizaandroid.ui.addOrUpdateStudent
 
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.MenuItem
 import androidx.annotation.RequiresApi
-import com.aliza.alizaandroid.EXTRA_STUDENT
-import com.aliza.alizaandroid.STUDENT_COURSE
-import com.aliza.alizaandroid.STUDENT_NAME
-import com.aliza.alizaandroid.STUDENT_SCORE
+import com.aliza.alizaandroid.utils.EXTRA_STUDENT
 import com.aliza.alizaandroid.base.BaseActivity
-import com.aliza.alizaandroid.base.showSnackbar
+import com.aliza.alizaandroid.utils.showSnackbar
 import com.aliza.alizaandroid.databinding.ActivityAddStudentBinding
-import com.aliza.alizaandroid.net.ApiManager
-import com.aliza.alizaandroid.net.model.Student
-import com.google.gson.JsonObject
+import com.aliza.alizaandroid.model.data.Student
+import com.aliza.alizaandroid.model.repository.AddOrUpdateStudentRepository
 
-class AddStudentActivity : BaseActivity<ActivityAddStudentBinding>() {
+
+class AddOrUpdateStudentActivity : BaseActivity<ActivityAddStudentBinding>(),
+    AddOrUpdateStudentContract.View {
     override fun inflateBinding(): ActivityAddStudentBinding =
         ActivityAddStudentBinding.inflate(layoutInflater)
 
-    private val apiManager = ApiManager()
+    private lateinit var presenter: AddOrUpdateStudentContract.Presenter
     private var isInserting = true
 
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+
+        presenter = AddOrUpdateStudentPresenter(AddOrUpdateStudentRepository())
+        presenter.onAttach(this)
 
         setSupportActionBar(binding.toolbarAddStudentActivity)
         supportActionBar!!.setHomeButtonEnabled(true)
@@ -54,6 +53,10 @@ class AddStudentActivity : BaseActivity<ActivityAddStudentBinding>() {
         }
 
     }
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.onDetach()
+    }
 
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -74,26 +77,29 @@ class AddStudentActivity : BaseActivity<ActivityAddStudentBinding>() {
             course.isNotEmpty() &&
             score.isNotEmpty()
         ) {
-            val jsonObject = JsonObject()
-            jsonObject.addProperty(STUDENT_NAME, "$firstName $lastName")
-            jsonObject.addProperty(STUDENT_COURSE, course)
-            jsonObject.addProperty(STUDENT_SCORE, score.toInt())
-            apiManager.insertStudent(jsonObject, object : ApiManager.ApiCallback<Int> {
-                @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
-                override fun onSuccess(data: Int) {
-                    showSnackbar(binding.root, "student inserted successfully.").show()
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        finish()
-                    }, 1500)
-                }
-
-                override fun onError(errorMessage: String) {
-                    Log.e("testApi", errorMessage)
-                }
-            })
+            val newStudent = Student(
+                name = "$firstName $lastName",
+                course = course,
+                score = score.toInt()
+            )
+            presenter.onAddNewStudent(newStudent)
         } else {
             showSnackbar(binding.root, "Please enter complete information.").show()
         }
+    }
+    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+    override fun successAddNewStudent() {
+        showSnackbar(binding.root, "student inserted successfully.").show()
+        Handler(Looper.getMainLooper()).postDelayed({
+            finish()
+        }, 1500)
+    }
+    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+    override fun errorAddNewStudent(errorMessage: String) {
+        showSnackbar(binding.root, "student not inserted successfully.").show()
+        Handler(Looper.getMainLooper()).postDelayed({
+            finish()
+        }, 1500)
     }
 
     private fun updateStudent() {
@@ -107,26 +113,29 @@ class AddStudentActivity : BaseActivity<ActivityAddStudentBinding>() {
             course.isNotEmpty() &&
             score.isNotEmpty()
         ) {
-            val jsonObject = JsonObject()
-            jsonObject.addProperty(STUDENT_NAME, "$firstName $lastName")
-            jsonObject.addProperty(STUDENT_COURSE, course)
-            jsonObject.addProperty(STUDENT_SCORE, score.toInt())
-            apiManager.updateStudent(firstName , lastName, jsonObject, object : ApiManager.ApiCallback<Int> {
-                @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
-                override fun onSuccess(data: Int) {
-                    showSnackbar(binding.root, "student updated successfully.").show()
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        finish()
-                    }, 1500)
-                }
-                override fun onError(errorMessage: String) {
-                    Log.v("testApi", errorMessage)
-                }
-            })
+            val newStudent = Student(
+                name = "$firstName $lastName",
+                course = course,
+                score = score.toInt()
+            )
+            presenter.onUpdateStudent(newStudent)
         } else {
-            showSnackbar(binding.root,"Please enter complete information.").show()
+            showSnackbar(binding.root, "Please enter complete information.").show()
         }
     }
 
-
+    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+    override fun successUpdateStudent() {
+        showSnackbar(binding.root, "student updated successfully.").show()
+        Handler(Looper.getMainLooper()).postDelayed({
+            finish()
+        }, 1500)
+    }
+    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+    override fun errorUpdateStudent(errorMessage: String) {
+        showSnackbar(binding.root, "student not updated successfully.").show()
+        Handler(Looper.getMainLooper()).postDelayed({
+            finish()
+        }, 1500)
+    }
 }

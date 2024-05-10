@@ -1,11 +1,11 @@
-package com.aliza.alizaandroid.features.main
+package com.aliza.alizaandroid.ui.student
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.aliza.alizaandroid.databinding.ItemMainBinding
-import com.aliza.alizaandroid.net.model.Student
+import com.aliza.alizaandroid.model.data.Student
 
 class StudentAdapter(val data: ArrayList<Student>, val studentEvent: StudentEvent) :
     RecyclerView.Adapter<StudentAdapter.StudentViewHolder>() {
