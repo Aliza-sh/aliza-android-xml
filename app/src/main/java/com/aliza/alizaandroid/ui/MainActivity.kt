@@ -1,4 +1,4 @@
-package com.aliza.alizaandroid
+package com.aliza.alizaandroid.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
