@@ -6,7 +6,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,22 +16,23 @@ import com.aliza.alizaandroid.base.NetworkChecker
 import com.aliza.alizaandroid.utils.showSnackbar
 import com.aliza.alizaandroid.databinding.ActivityStudentBinding
 import com.aliza.alizaandroid.model.data.Student
-import com.aliza.alizaandroid.model.net.ApiManager
+import com.aliza.alizaandroid.model.repository.StudentRepository
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.StudentEvent {
+class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.StudentEvent, StudentContract.View {
     override fun inflateBinding(): ActivityStudentBinding =
         ActivityStudentBinding.inflate(layoutInflater)
 
-    private val apiManager = ApiManager()
+    private lateinit var presenter: StudentContract.Presenter
     private lateinit var myAdapter: StudentAdapter
 
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     @SuppressLint("UnspecifiedImmutableFlag")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
         setSupportActionBar(binding.toolbarMain)
+
+        presenter = StudentPresenter(StudentRepository())
 
         binding.btnAddStudent.setOnClickListener {
             val intent = Intent(this, AddOrUpdateStudentActivity::class.java)
@@ -51,7 +51,7 @@ class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.S
 
     private fun networkChecker() {
         if (NetworkChecker(applicationContext).isInternetConnected) {
-            getDataFromApi()
+            presenter.onAttach(this)
         } else {
             showSnackbar(binding.root,"No Internet!")
                 .setAction("Retry") {
@@ -65,20 +65,17 @@ class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.S
         super.onResume()
         networkChecker()
     }
-
-    private fun getDataFromApi() {
-        apiManager.getAllStudents(object : ApiManager.ApiCallback<List<Student>> {
-            override fun onSuccess(data: List<Student>) {
-                setDataToRecycler(data)
-            }
-
-            override fun onError(errorMessage: String) {
-                Log.v("testApi", errorMessage)
-            }
-        })
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.onDetach()
     }
 
-    fun setDataToRecycler(data: List<Student>) {
+
+    override fun showStudent(data: List<Student>) {
+        setDataToRecycler(data)
+    }
+
+    private fun setDataToRecycler(data: List<Student>) {
         val myData = ArrayList(data)
         myAdapter = StudentAdapter(myData, this)
         binding.recyclerMain.adapter = myAdapter
@@ -100,7 +97,7 @@ class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.S
         MaterialAlertDialogBuilder(this)
             .setTitle("Delete this Item?")
             .setPositiveButton("confirm") { dialog, which ->
-                deleteDataFromServer(student, position)
+                presenter.onDeleteStudent(student,position)
                 dialog.dismiss()
             }
             .setNegativeButton("cancel") { dialog, which ->
@@ -108,16 +105,11 @@ class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.S
             }
             .show()
     }
-
-    private fun deleteDataFromServer(student: Student, position: Int) {
-        apiManager.deleteStudent(student.name, object : ApiManager.ApiCallback<Int> {
-            override fun onSuccess(data: Int) {
-                myAdapter.removeItem(student, position)
-            }
-            override fun onError(errorMessage: String) {
-                Log.v("testApi", errorMessage)
-            }
-        })
+    override fun deleteStudent(oldStudent: Student, pos: Int) {
+        myAdapter.removeItem(oldStudent, pos)
+    }
+    override fun errorDeleteStudent(errorMessage: String) {
+        showSnackbar(binding.root, "student not Deleted successfully.").show()
     }
 
 }
