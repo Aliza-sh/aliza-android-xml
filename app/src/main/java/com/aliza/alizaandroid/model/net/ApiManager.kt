@@ -1,6 +1,7 @@
-package com.aliza.alizaandroid.net
+package com.aliza.alizaandroid.model.net
 
-import com.aliza.alizaandroid.net.model.Student
+import com.aliza.alizaandroid.model.BASE_URL
+import com.aliza.alizaandroid.model.data.Student
 import com.google.gson.JsonObject
 import okhttp3.OkHttpClient
 import retrofit2.Call
