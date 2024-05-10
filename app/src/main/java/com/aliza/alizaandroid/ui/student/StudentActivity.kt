@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aliza.alizaandroid.utils.EXTRA_STUDENT
 import com.aliza.alizaandroid.ui.addOrUpdateStudent.AddOrUpdateStudentActivity
 import com.aliza.alizaandroid.base.BaseActivity
-import com.aliza.alizaandroid.base.NetworkChecker
+import com.aliza.alizaandroid.utils.NetworkChecker
 import com.aliza.alizaandroid.utils.showSnackbar
 import com.aliza.alizaandroid.databinding.ActivityStudentBinding
 import com.aliza.alizaandroid.model.data.Student
