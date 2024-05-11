@@ -2,8 +2,6 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
-    id ("kotlin-parcelize")
-
 }
 
 android {
@@ -48,13 +46,13 @@ dependencies {
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.constraintlayout)
+    implementation(libs.androidx.activity)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
-    implementation(libs.androidx.swiperefreshlayout)
+    implementation(libs.lottie)
 
-    // retrofit library :
-    implementation (libs.retrofit)
-    implementation (libs.converter.gson)
+    implementation(libs.glide)
+    implementation(libs.glide.transformations)
 }

@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.addStudent.AddStudentActivity">
 
+
     <com.google.android.material.appbar.AppBarLayout
         android:backgroundTint="@color/colorPrimary"
         android:theme="@style/Theme.MaterialComponents"

@@ -27,6 +27,7 @@ class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.S
         ActivityStudentBinding.inflate(layoutInflater)
 
     private val apiManager = ApiManager()
+
     private lateinit var myAdapter: StudentAdapter
 
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
@@ -81,7 +82,6 @@ class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.S
         super.onResume()
         networkChecker()
     }
-
     private fun getDataFromApi() {
         apiManager.getAllStudents(object : ApiManager.ApiCallback<List<Student>> {
             override fun onSuccess(data: List<Student>) {
@@ -95,6 +95,7 @@ class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.S
     }
 
     fun setDataToRecycler(data: List<Student>) {
+
         val myData = ArrayList(data)
         myAdapter = StudentAdapter(myData, this)
         binding.recyclerMain.adapter = myAdapter
@@ -108,6 +109,7 @@ class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.S
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     private fun updateDataInServer(student: Student) {
         val intent = Intent(this, AddStudentActivity::class.java)
+
         intent.putExtra(EXTRA_STUDENT, student)
         startActivity(intent)
     }
@@ -117,6 +119,7 @@ class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.S
             .setTitle("Delete this Item?")
             .setPositiveButton("confirm") { dialog, which ->
                 deleteDataFromServer(student, position)
+
                 dialog.dismiss()
             }
             .setNegativeButton("cancel") { dialog, which ->
@@ -134,6 +137,7 @@ class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.S
                 Log.v("testApi", errorMessage)
             }
         })
+
     }
 
 }
