@@ -32,6 +32,11 @@
             android:exported="false"
             android:windowSoftInputMode="stateVisible" />
 
+        <activity
+            android:name=".ui.rxjava.RxjavaActivity"
+            android:exported="false"
+            android:windowSoftInputMode="stateVisible" />
+
     </application>
 
 </manifest>
