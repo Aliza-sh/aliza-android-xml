@@ -1,9 +1,8 @@
 package com.aliza.alizaandroid.model.net
 
-import com.aliza.alizaandroid.model.data.Student
 import com.google.gson.JsonObject
-import retrofit2.Call
-import retrofit2.http.*
+import com.aliza.alizaandroid.model.data.Student
+
 
 interface ApiService {
 

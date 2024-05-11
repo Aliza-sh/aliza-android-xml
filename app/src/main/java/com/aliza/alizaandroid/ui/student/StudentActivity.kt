@@ -6,36 +6,39 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.aliza.alizaandroid.R
 import com.aliza.alizaandroid.utils.EXTRA_STUDENT
-import com.aliza.alizaandroid.ui.addOrUpdateStudent.AddOrUpdateStudentActivity
+import com.aliza.alizaandroid.ui.addStudent.AddStudentActivity
 import com.aliza.alizaandroid.base.BaseActivity
 import com.aliza.alizaandroid.utils.NetworkChecker
 import com.aliza.alizaandroid.utils.showSnackbar
 import com.aliza.alizaandroid.databinding.ActivityStudentBinding
+import com.aliza.alizaandroid.model.net.ApiManager
 import com.aliza.alizaandroid.model.data.Student
-import com.aliza.alizaandroid.model.repository.StudentRepository
+import com.aliza.alizaandroid.ui.rxjava.RxjavaActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.StudentEvent, StudentContract.View {
+class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.StudentEvent {
     override fun inflateBinding(): ActivityStudentBinding =
         ActivityStudentBinding.inflate(layoutInflater)
 
-    private lateinit var presenter: StudentContract.Presenter
+    private val apiManager = ApiManager()
+
     private lateinit var myAdapter: StudentAdapter
 
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     @SuppressLint("UnspecifiedImmutableFlag")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setSupportActionBar(binding.toolbarMain)
-
-        presenter = StudentPresenter(StudentRepository())
+        setContentView(binding.root)
+        toolBarOnMenuItemClick()
 
         binding.btnAddStudent.setOnClickListener {
-            val intent = Intent(this, AddOrUpdateStudentActivity::class.java)
+            val intent = Intent(this, AddStudentActivity::class.java)
             startActivity(intent)
         }
 
@@ -49,9 +52,23 @@ class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.S
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+    private fun toolBarOnMenuItemClick() {
+        binding.toolbarMain.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.menu_rxjava -> {
+                    val intent = Intent(this, RxjavaActivity::class.java)
+                    startActivity(intent)
+                }
+            }
+            true
+        }
+    }
+
+
     private fun networkChecker() {
         if (NetworkChecker(applicationContext).isInternetConnected) {
-            presenter.onAttach(this)
+            getDataFromApi()
         } else {
             showSnackbar(binding.root,"No Internet!")
                 .setAction("Retry") {
@@ -65,17 +82,20 @@ class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.S
         super.onResume()
         networkChecker()
     }
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.onDetach()
+    private fun getDataFromApi() {
+        apiManager.getAllStudents(object : ApiManager.ApiCallback<List<Student>> {
+            override fun onSuccess(data: List<Student>) {
+                setDataToRecycler(data)
+            }
+
+            override fun onError(errorMessage: String) {
+                Log.v("testApi", errorMessage)
+            }
+        })
     }
 
+    fun setDataToRecycler(data: List<Student>) {
 
-    override fun showStudent(data: List<Student>) {
-        setDataToRecycler(data)
-    }
-
-    private fun setDataToRecycler(data: List<Student>) {
         val myData = ArrayList(data)
         myAdapter = StudentAdapter(myData, this)
         binding.recyclerMain.adapter = myAdapter
@@ -88,7 +108,8 @@ class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.S
     }
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     private fun updateDataInServer(student: Student) {
-        val intent = Intent(this, AddOrUpdateStudentActivity::class.java)
+        val intent = Intent(this, AddStudentActivity::class.java)
+
         intent.putExtra(EXTRA_STUDENT, student)
         startActivity(intent)
     }
@@ -97,7 +118,8 @@ class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.S
         MaterialAlertDialogBuilder(this)
             .setTitle("Delete this Item?")
             .setPositiveButton("confirm") { dialog, which ->
-                presenter.onDeleteStudent(student,position)
+                deleteDataFromServer(student, position)
+
                 dialog.dismiss()
             }
             .setNegativeButton("cancel") { dialog, which ->
@@ -105,11 +127,17 @@ class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.S
             }
             .show()
     }
-    override fun deleteStudent(oldStudent: Student, pos: Int) {
-        myAdapter.removeItem(oldStudent, pos)
-    }
-    override fun errorDeleteStudent(errorMessage: String) {
-        showSnackbar(binding.root, "student not Deleted successfully.").show()
+
+    private fun deleteDataFromServer(student: Student, position: Int) {
+        apiManager.deleteStudent(student.name, object : ApiManager.ApiCallback<Int> {
+            override fun onSuccess(data: Int) {
+                myAdapter.removeItem(student, position)
+            }
+            override fun onError(errorMessage: String) {
+                Log.v("testApi", errorMessage)
+            }
+        })
+
     }
 
 }

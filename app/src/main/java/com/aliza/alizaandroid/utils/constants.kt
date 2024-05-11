@@ -1,11 +1,8 @@
 package com.aliza.alizaandroid.utils
 
-<<<<<<< HEAD
-=======
+const val STUDENT_NAME = "name"
+const val STUDENT_COURSE = "course"
+const val STUDENT_SCORE = "score"
 
-const val TAG_MAIN_ACTIVIRY = "myActivity"
-const val BASE_URL_IMAGE = "https://dunijet.ir/YaghootAndroidFiles/DuniFoodSimple/food"
+const val EXTRA_STUDENT = "student"
 
-const val SHAREDPREFERENCES_ALIZAFOOD = "Aliza Food"
-const val FIRSTRUN = "first run"
->>>>>>> aliza-food
