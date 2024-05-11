@@ -10,6 +10,7 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.aliza.alizaandroid.R
 import com.aliza.alizaandroid.utils.EXTRA_STUDENT
 import com.aliza.alizaandroid.ui.addStudent.AddStudentActivity
 import com.aliza.alizaandroid.base.BaseActivity
@@ -18,6 +19,7 @@ import com.aliza.alizaandroid.utils.showSnackbar
 import com.aliza.alizaandroid.databinding.ActivityStudentBinding
 import com.aliza.alizaandroid.model.net.ApiManager
 import com.aliza.alizaandroid.model.data.Student
+import com.aliza.alizaandroid.ui.rxjava.RxjavaActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.StudentEvent {
@@ -32,7 +34,7 @@ class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.S
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        setSupportActionBar(binding.toolbarMain)
+        toolBarOnMenuItemClick()
 
         binding.btnAddStudent.setOnClickListener {
             val intent = Intent(this, AddStudentActivity::class.java)
@@ -48,6 +50,20 @@ class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.S
         }
 
     }
+
+    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+    private fun toolBarOnMenuItemClick() {
+        binding.toolbarMain.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.menu_rxjava -> {
+                    val intent = Intent(this, RxjavaActivity::class.java)
+                    startActivity(intent)
+                }
+            }
+            true
+        }
+    }
+
 
     private fun networkChecker() {
         if (NetworkChecker(applicationContext).isInternetConnected) {
