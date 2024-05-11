@@ -1,4 +1,4 @@
-package com.aliza.alizaandroid.base
+package com.aliza.alizaandroid.utils
 
 import android.content.Context
 import android.net.ConnectivityManager

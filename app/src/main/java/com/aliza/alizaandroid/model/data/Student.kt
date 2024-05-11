@@ -1,4 +1,4 @@
-package com.aliza.alizaandroid.net.model
+package com.aliza.alizaandroid.model.data
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
