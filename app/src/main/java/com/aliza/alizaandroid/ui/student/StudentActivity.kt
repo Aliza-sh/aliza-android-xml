@@ -1,4 +1,4 @@
-package com.aliza.alizaandroid.features.main
+package com.aliza.alizaandroid.ui.student
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -10,14 +10,14 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.aliza.alizaandroid.EXTRA_STUDENT
-import com.aliza.alizaandroid.features.AddStudentActivity
+import com.aliza.alizaandroid.ui.addStudent.AddStudentActivity
 import com.aliza.alizaandroid.base.BaseActivity
-import com.aliza.alizaandroid.base.NetworkChecker
-import com.aliza.alizaandroid.base.showSnackbar
+import com.aliza.alizaandroid.utils.NetworkChecker
+import com.aliza.alizaandroid.utils.showSnackbar
 import com.aliza.alizaandroid.databinding.ActivityStudentBinding
-import com.aliza.alizaandroid.net.ApiManager
-import com.aliza.alizaandroid.net.model.Student
+import com.aliza.alizaandroid.model.net.ApiManager
+import com.aliza.alizaandroid.model.data.Student
+import com.aliza.alizaandroid.utils.EXTRA_STUDENT
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.StudentEvent {

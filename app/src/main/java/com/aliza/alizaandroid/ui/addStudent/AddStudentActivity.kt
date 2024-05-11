@@ -1,4 +1,4 @@
-package com.aliza.alizaandroid.features
+package com.aliza.alizaandroid.ui.addStudent
 
 import android.os.Build
 import android.os.Bundle
@@ -7,15 +7,15 @@ import android.os.Looper
 import android.util.Log
 import android.view.MenuItem
 import androidx.annotation.RequiresApi
-import com.aliza.alizaandroid.EXTRA_STUDENT
-import com.aliza.alizaandroid.STUDENT_COURSE
-import com.aliza.alizaandroid.STUDENT_NAME
-import com.aliza.alizaandroid.STUDENT_SCORE
 import com.aliza.alizaandroid.base.BaseActivity
-import com.aliza.alizaandroid.base.showSnackbar
+import com.aliza.alizaandroid.utils.showSnackbar
 import com.aliza.alizaandroid.databinding.ActivityAddStudentBinding
-import com.aliza.alizaandroid.net.ApiManager
-import com.aliza.alizaandroid.net.model.Student
+import com.aliza.alizaandroid.model.net.ApiManager
+import com.aliza.alizaandroid.model.data.Student
+import com.aliza.alizaandroid.utils.EXTRA_STUDENT
+import com.aliza.alizaandroid.utils.STUDENT_COURSE
+import com.aliza.alizaandroid.utils.STUDENT_NAME
+import com.aliza.alizaandroid.utils.STUDENT_SCORE
 import com.google.gson.JsonObject
 
 class AddStudentActivity : BaseActivity<ActivityAddStudentBinding>() {
