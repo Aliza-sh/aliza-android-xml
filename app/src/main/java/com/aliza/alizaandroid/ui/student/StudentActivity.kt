@@ -17,17 +17,22 @@ import com.aliza.alizaandroid.base.BaseActivity
 import com.aliza.alizaandroid.utils.NetworkChecker
 import com.aliza.alizaandroid.utils.showSnackbar
 import com.aliza.alizaandroid.databinding.ActivityStudentBinding
-import com.aliza.alizaandroid.model.net.ApiManager
+import com.aliza.alizaandroid.di.App
 import com.aliza.alizaandroid.model.data.Student
 import com.aliza.alizaandroid.ui.rxjava.RxjavaActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.SingleObserver
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.StudentEvent {
     override fun inflateBinding(): ActivityStudentBinding =
         ActivityStudentBinding.inflate(layoutInflater)
 
-    private val apiManager = ApiManager()
     private lateinit var myAdapter: StudentAdapter
+    private val apiService = App.api!!
+    lateinit var disposable: Disposable
 
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     @SuppressLint("UnspecifiedImmutableFlag")
@@ -82,16 +87,29 @@ class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.S
         networkChecker()
     }
 
-    private fun getDataFromApi() {
-        apiManager.getAllStudents(object : ApiManager.ApiCallback<List<Student>> {
-            override fun onSuccess(data: List<Student>) {
-                setDataToRecycler(data)
-            }
+    override fun onDestroy() {
+        super.onDestroy()
+        disposable.dispose()
+    }
 
-            override fun onError(errorMessage: String) {
-                Log.v("testApi", errorMessage)
-            }
-        })
+    private fun getDataFromApi() {
+        apiService
+            .getAllStudents()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : SingleObserver<List<Student>> {
+                override fun onSubscribe(d: Disposable) {
+                    disposable = d
+                }
+
+                override fun onError(e: Throwable) {
+                    Log.v("testApi", e.message.toString())
+                }
+
+                override fun onSuccess(t: List<Student>) {
+                    setDataToRecycler(t)
+                }
+            })
     }
 
     fun setDataToRecycler(data: List<Student>) {
@@ -126,14 +144,24 @@ class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.S
     }
 
     private fun deleteDataFromServer(student: Student, position: Int) {
-        apiManager.deleteStudent(student.name, object : ApiManager.ApiCallback<Int> {
-            override fun onSuccess(data: Int) {
-                myAdapter.removeItem(student, position)
-            }
-            override fun onError(errorMessage: String) {
-                Log.v("testApi", errorMessage)
-            }
-        })
+
+        apiService
+            .deleteStudent(student.name)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : SingleObserver<Int> {
+                override fun onSubscribe(d: Disposable) {
+                    disposable = d
+                }
+
+                override fun onError(e: Throwable) {
+                    Log.v("testApi", e.message.toString())
+                }
+
+                override fun onSuccess(t: Int) {
+                    myAdapter.removeItem(student, position)
+                }
+            })
     }
 
 }
