@@ -5,6 +5,8 @@ import com.aliza.alizaandroid.model.data.Student
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.*
 
+
+
 interface ApiService {
 
     @GET("/student")
@@ -18,4 +20,14 @@ interface ApiService {
 
     @DELETE("/student/deleting{name}")
     fun deleteStudent( @Path("name") name:String ) :Single<Int>
+    fun getAllStudents(): Call<List<Student>>
+
+    @POST("/student")
+    fun insertStudent(@Body body: JsonObject): Call<Int>
+
+    @PUT("/student/updating{name}")
+    fun updateStudent( @Path("name") name:String , @Body body :JsonObject ) :Call<Int>
+
+    @DELETE("/student/deleting{name}")
+    fun deleteStudent( @Path("name") name:String ) :Call<Int>
 }

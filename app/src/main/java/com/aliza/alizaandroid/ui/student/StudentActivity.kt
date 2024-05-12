@@ -25,6 +25,11 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.SingleObserver
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+=======
+import com.aliza.alizaandroid.model.net.ApiManager
+import com.aliza.alizaandroid.model.data.Student
+import com.aliza.alizaandroid.ui.rxjava.RxjavaActivity
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.StudentEvent {
     override fun inflateBinding(): ActivityStudentBinding =
@@ -33,6 +38,9 @@ class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.S
     private lateinit var myAdapter: StudentAdapter
     private val apiService = App.api!!
     lateinit var disposable: Disposable
+    private val apiManager = ApiManager()
+
+    private lateinit var myAdapter: StudentAdapter
 
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     @SuppressLint("UnspecifiedImmutableFlag")
@@ -113,6 +121,21 @@ class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.S
     }
 
     fun setDataToRecycler(data: List<Student>) {
+=======
+    private fun getDataFromApi() {
+        apiManager.getAllStudents(object : ApiManager.ApiCallback<List<Student>> {
+            override fun onSuccess(data: List<Student>) {
+                setDataToRecycler(data)
+            }
+
+            override fun onError(errorMessage: String) {
+                Log.v("testApi", errorMessage)
+            }
+        })
+    }
+
+    fun setDataToRecycler(data: List<Student>) {
+
         val myData = ArrayList(data)
         myAdapter = StudentAdapter(myData, this)
         binding.recyclerMain.adapter = myAdapter
@@ -126,6 +149,7 @@ class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.S
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     private fun updateDataInServer(student: Student) {
         val intent = Intent(this, AddStudentActivity::class.java)
+
         intent.putExtra(EXTRA_STUDENT, student)
         startActivity(intent)
     }
@@ -135,6 +159,7 @@ class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.S
             .setTitle("Delete this Item?")
             .setPositiveButton("confirm") { dialog, which ->
                 deleteDataFromServer(student, position)
+
                 dialog.dismiss()
             }
             .setNegativeButton("cancel") { dialog, which ->
@@ -144,7 +169,6 @@ class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.S
     }
 
     private fun deleteDataFromServer(student: Student, position: Int) {
-
         apiService
             .deleteStudent(student.name)
             .subscribeOn(Schedulers.io())
@@ -162,6 +186,15 @@ class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.S
                     myAdapter.removeItem(student, position)
                 }
             })
+        apiManager.deleteStudent(student.name, object : ApiManager.ApiCallback<Int> {
+            override fun onSuccess(data: Int) {
+                myAdapter.removeItem(student, position)
+            }
+            override fun onError(errorMessage: String) {
+                Log.v("testApi", errorMessage)
+            }
+        })
+
     }
 
 }

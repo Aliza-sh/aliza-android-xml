@@ -11,6 +11,8 @@ import com.aliza.alizaandroid.base.BaseActivity
 import com.aliza.alizaandroid.utils.showSnackbar
 import com.aliza.alizaandroid.databinding.ActivityAddStudentBinding
 import com.aliza.alizaandroid.di.App
+=======
+import com.aliza.alizaandroid.model.net.ApiManager
 import com.aliza.alizaandroid.model.data.Student
 import com.aliza.alizaandroid.utils.EXTRA_STUDENT
 import com.aliza.alizaandroid.utils.STUDENT_COURSE
@@ -21,6 +23,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.SingleObserver
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+
 
 class AddStudentActivity : BaseActivity<ActivityAddStudentBinding>() {
     override fun inflateBinding(): ActivityAddStudentBinding =
@@ -33,6 +36,12 @@ class AddStudentActivity : BaseActivity<ActivityAddStudentBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+    private val apiManager = ApiManager()
+    private var isInserting = true
+
+    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
         setSupportActionBar(binding.toolbarAddStudentActivity)
         supportActionBar!!.setHomeButtonEnabled(true)
@@ -104,6 +113,19 @@ class AddStudentActivity : BaseActivity<ActivityAddStudentBinding>() {
                         }, 1500)
                     }
                 })
+            apiManager.insertStudent(jsonObject, object : ApiManager.ApiCallback<Int> {
+                @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+                override fun onSuccess(data: Int) {
+                    showSnackbar(binding.root, "student inserted successfully.").show()
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        finish()
+                    }, 1500)
+                }
+
+                override fun onError(errorMessage: String) {
+                    Log.e("testApi", errorMessage)
+                }
+            })
         } else {
             showSnackbar(binding.root, "Please enter complete information.").show()
         }
@@ -147,6 +169,18 @@ class AddStudentActivity : BaseActivity<ActivityAddStudentBinding>() {
                     }
                 })
 
+            apiManager.updateStudent(firstName , lastName, jsonObject, object : ApiManager.ApiCallback<Int> {
+                @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+                override fun onSuccess(data: Int) {
+                    showSnackbar(binding.root, "student updated successfully.").show()
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        finish()
+                    }, 1500)
+                }
+                override fun onError(errorMessage: String) {
+                    Log.v("testApi", errorMessage)
+                }
+            })
         } else {
             showSnackbar(binding.root,"Please enter complete information.").show()
         }
