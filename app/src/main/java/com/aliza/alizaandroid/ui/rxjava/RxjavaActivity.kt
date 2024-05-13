@@ -30,6 +30,28 @@ class RxjavaActivity : BaseActivity<ActivityRxjavaBinding>() {
         supportActionBar!!.setHomeButtonEnabled(true)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
+        SimpleDefinition()
+        customObservable()
+
+
+
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        disposable.dispose()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            finish()
+        }
+        return true
+    }
+
+    private fun SimpleDefinition(){
         Observable
             .just("Hi", "Bitcoin is Good", "Ethereum is Bad", "I love Space")
             .subscribe(object : Observer<String> {
@@ -50,9 +72,9 @@ class RxjavaActivity : BaseActivity<ActivityRxjavaBinding>() {
                 }
 
             })
+    }
 
-//**************************************************************************************************
-
+    private fun customObservable(){
         getDataOneByOne()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -101,20 +123,6 @@ class RxjavaActivity : BaseActivity<ActivityRxjavaBinding>() {
                 }
 
             })
-
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        disposable.dispose()
-    }
-
-    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            finish()
-        }
-        return true
     }
 
     private fun getAllData(): Single<List<Int>> {
