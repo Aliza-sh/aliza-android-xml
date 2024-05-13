@@ -14,6 +14,9 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.core.SingleObserver
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import io.reactivex.rxjava3.subjects.BehaviorSubject
+import io.reactivex.rxjava3.subjects.PublishSubject
+import io.reactivex.rxjava3.subjects.ReplaySubject
 
 class RxjavaActivity : BaseActivity<ActivityRxjavaBinding>() {
 
@@ -33,8 +36,9 @@ class RxjavaActivity : BaseActivity<ActivityRxjavaBinding>() {
         SimpleDefinition()
         customObservable()
 
-
-
+        publishSubject()
+        behaviorSubject()
+        replaySubject()
 
     }
 
@@ -139,6 +143,54 @@ class RxjavaActivity : BaseActivity<ActivityRxjavaBinding>() {
                 emitter.onNext(it)
             }
         }
+    }
+
+    private fun publishSubject(){
+
+        val publishSubject = PublishSubject.create<String>()
+
+        publishSubject.onNext("Hi" )
+        publishSubject.onNext("Bitcoin is Good")
+
+        disposable = publishSubject.subscribe {
+            Log.v("publishSubject", it)
+        }
+
+        publishSubject.onNext( "Ethereum is Bad")
+        publishSubject.onNext( "I love Space")
+
+    }
+
+    private fun behaviorSubject(){
+
+        val behaviorSubject = BehaviorSubject.create<String>()
+
+        behaviorSubject.onNext("Hi" )
+        behaviorSubject.onNext("Bitcoin is Good")
+
+        disposable = behaviorSubject.subscribe {
+            Log.v("behaviorSubject", it)
+        }
+
+        behaviorSubject.onNext( "Ethereum is Bad")
+        behaviorSubject.onNext( "I love Space")
+
+    }
+
+    private fun replaySubject(){
+
+        val replaySubject = ReplaySubject.create<String>()
+
+        replaySubject.onNext("Hi" )
+        replaySubject.onNext("Bitcoin is Good")
+
+        disposable = replaySubject.subscribe {
+            Log.v("replaySubject", it)
+        }
+
+        replaySubject.onNext( "Ethereum is Bad")
+        replaySubject.onNext( "I love Space")
+
     }
 
 
