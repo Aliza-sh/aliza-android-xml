@@ -7,13 +7,18 @@ import android.view.MenuItem
 import androidx.annotation.RequiresApi
 import com.aliza.alizaandroid.base.BaseActivity
 import com.aliza.alizaandroid.databinding.ActivityRxjavaBinding
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Observer
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.core.SingleObserver
 import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 class RxjavaActivity : BaseActivity<ActivityRxjavaBinding>() {
 
-    override fun inflateBinding(): ActivityRxjavaBinding  = ActivityRxjavaBinding.inflate(layoutInflater)
+    override fun inflateBinding(): ActivityRxjavaBinding =
+        ActivityRxjavaBinding.inflate(layoutInflater)
 
     lateinit var disposable: Disposable
 
@@ -46,6 +51,57 @@ class RxjavaActivity : BaseActivity<ActivityRxjavaBinding>() {
 
             })
 
+//**************************************************************************************************
+
+        getDataOneByOne()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .filter {
+                it > 5
+            }
+            .map {
+                "number is $it"
+            }
+            .take(3)
+            .subscribe(object : Observer<String> {
+                override fun onSubscribe(d: Disposable) {
+                    disposable = d
+                }
+
+                override fun onNext(t: String) {
+                    Log.v("customObservable", t)
+                }
+
+                override fun onError(e: Throwable) {
+                    Log.v("customObservable", e.message!!)
+                }
+
+                override fun onComplete() {
+                    Log.v("customObservable", "data finished")
+                }
+
+            })
+
+        getAllData()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : SingleObserver<List<Int>> {
+                override fun onSubscribe(d: Disposable) {
+                    disposable = d
+                }
+
+                override fun onSuccess(t: List<Int>) {
+                    repeat(t.size) {
+                        Log.v("customObservable", t.toString())
+                    }
+                }
+
+                override fun onError(e: Throwable) {
+                    Log.v("customObservable", e.message!!)
+                }
+
+            })
+
     }
 
     override fun onDestroy() {
@@ -60,5 +116,22 @@ class RxjavaActivity : BaseActivity<ActivityRxjavaBinding>() {
         }
         return true
     }
+
+    private fun getAllData(): Single<List<Int>> {
+        return Single.create { emitter ->
+            // data is ready
+            emitter.onSuccess(listOf(1, 4, 5))
+        }
+    }
+
+    private fun getDataOneByOne(): Observable<Int> {
+        val data = listOf(1, 4, 5, 8, 7, 14, 15, 16, 20)
+        return Observable.create { emitter ->
+            data.forEach {
+                emitter.onNext(it)
+            }
+        }
+    }
+
 
 }
