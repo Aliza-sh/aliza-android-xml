@@ -1,4 +1,4 @@
-package com.aliza.alizaandroid.features
+package com.aliza.alizaandroid.ui.addOrUpdateStudent
 
 import android.os.Build
 import android.os.Bundle
@@ -12,15 +12,15 @@ import com.aliza.alizaandroid.STUDENT_COURSE
 import com.aliza.alizaandroid.STUDENT_NAME
 import com.aliza.alizaandroid.STUDENT_SCORE
 import com.aliza.alizaandroid.base.BaseActivity
-import com.aliza.alizaandroid.base.showSnackbar
-import com.aliza.alizaandroid.databinding.ActivityAddStudentBinding
-import com.aliza.alizaandroid.net.ApiManager
-import com.aliza.alizaandroid.net.model.Student
+import com.aliza.alizaandroid.utils.showSnackbar
+import com.aliza.alizaandroid.databinding.ActivityAddOrUpdateStudentBinding
+import com.aliza.alizaandroid.model.net.ApiManager
+import com.aliza.alizaandroid.model.data.Student
 import com.google.gson.JsonObject
 
-class AddStudentActivity : BaseActivity<ActivityAddStudentBinding>() {
-    override fun inflateBinding(): ActivityAddStudentBinding =
-        ActivityAddStudentBinding.inflate(layoutInflater)
+class AddOrUpdateStudentActivity : BaseActivity<ActivityAddOrUpdateStudentBinding>() {
+    override fun inflateBinding(): ActivityAddOrUpdateStudentBinding =
+        ActivityAddOrUpdateStudentBinding.inflate(layoutInflater)
 
     private val apiManager = ApiManager()
     private var isInserting = true
