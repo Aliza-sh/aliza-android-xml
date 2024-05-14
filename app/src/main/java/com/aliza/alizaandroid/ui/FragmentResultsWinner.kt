@@ -16,7 +16,7 @@ class FragmentResultsWinner :
         }
 
         binding.leaderboardBtn2.setOnClickListener {
-            navigate(R.id.action_resultsWinner_to_leaderboard, true)
+            navigate(R.id.action_resultsWinner_to_navigation_leaderboard, true)
         }
     }
 }

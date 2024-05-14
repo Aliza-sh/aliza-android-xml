@@ -16,7 +16,7 @@ class FragmentTitleScreen :
         }
 
         binding.leaderboardBtn.setOnClickListener {
-            navigate(R.id.action_titleScreen_to_leaderboard, true)
+            navigate(R.id.action_titleScreen_to_navigation_leaderboard, true)
         }
 
     }
