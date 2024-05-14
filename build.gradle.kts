@@ -6,4 +6,14 @@ plugins {
     id("com.google.devtools.ksp") version "1.8.10-1.0.9" apply false
 
 }
+
+buildscript {
+    repositories {
+        google()
+    }
+    dependencies {
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.7.7")
+    }
+}
+
 true // Needed to make the Suppress annotation work for the plugins block
