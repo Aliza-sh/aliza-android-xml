@@ -10,6 +10,8 @@ material = "1.11.0"
 constraintlayout = "2.1.4"
 swiperefreshlayout = "1.1.0"
 retrofit = "2.11.0"
+rxandroid = "3.0.2"
+rxjava3 = "3.1.5"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -22,6 +24,9 @@ constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayo
 androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+retrofit2-adapter-rxjava3 = { module = "com.squareup.retrofit2:adapter-rxjava3", version.ref = "retrofit" }
+rxjava3 = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava3" }
+rxandroid = { module = "io.reactivex.rxjava3:rxandroid", version.ref = "rxandroid" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

@@ -57,4 +57,10 @@ dependencies {
     // retrofit library :
     implementation (libs.retrofit)
     implementation (libs.converter.gson)
+    implementation (libs.retrofit2.adapter.rxjava3)
+
+    // RxJava =>
+    implementation (libs.rxandroid)
+    implementation (libs.rxjava3)
+
 }
