@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import com.aliza.alizaandroid.R
 import java.lang.IllegalArgumentException
@@ -35,12 +35,22 @@ abstract class BaseFragment<VB : ViewBinding>(
         _binding = null
     }
 
-    override fun onCreateAnimation(transit: Int, enter: Boolean, nextAnim: Int): Animation {
-        return if (enter) {
-            AnimationUtils.loadAnimation(context, R.anim.anim_slide_in_right)
+    protected fun navigate(actionId: Int, useCustomAnimation: Boolean = false,popUpToId: Int = -1,popUpToInclusive: Boolean = false) {
+
+        val navOptions = if (useCustomAnimation) {
+            NavOptions.Builder()
+                .setEnterAnim(R.anim.anim_slide_from_right)
+                .setExitAnim(R.anim.anim_slide_to_left)
+                .setPopEnterAnim(R.anim.anim_slide_from_left)
+                .setPopExitAnim(R.anim.anim_slide_to_right)
+                .setPopUpTo(popUpToId,popUpToInclusive)
+                .build()
         } else {
-            AnimationUtils.loadAnimation(context, R.anim.anim_slide_out_right)
+            NavOptions.Builder()
+                .build()
         }
+
+        findNavController().navigate(actionId, null, navOptions)
     }
 
     //Method to get the name of the caller's class.

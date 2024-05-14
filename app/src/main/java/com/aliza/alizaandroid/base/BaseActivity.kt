@@ -8,6 +8,7 @@ import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
 import androidx.viewbinding.ViewBinding
 import com.aliza.alizaandroid.R
 
@@ -28,14 +29,18 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         onBackPressedCallback = object : OnBackPressedCallback(true) {
             @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
             override fun handleOnBackPressed() {
+
+                val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView)
+                val backStackEntryCount = navHostFragment?.childFragmentManager?.backStackEntryCount ?: 0
+
                 // Check Orientation
                 if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE){
                     requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT
                 // Check if there are any fragments in the back stack
-                } else if (supportFragmentManager.backStackEntryCount > 0) {
+                } else if (backStackEntryCount > 0) {
                     // Pop the fragment from the back stack
                     onBack()
-                    supportFragmentManager.popBackStack()
+                    findNavController(R.id.fragmentContainerView).popBackStack()
                 } else {
                     // Close the activity
                     finish()
