@@ -1,5 +1,6 @@
 package com.aliza.alizaandroid.ui.addOrUpdateStudent
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -8,27 +9,32 @@ import android.util.Log
 import android.view.MenuItem
 import androidx.annotation.RequiresApi
 import com.aliza.alizaandroid.EXTRA_STUDENT
-import com.aliza.alizaandroid.STUDENT_COURSE
-import com.aliza.alizaandroid.STUDENT_NAME
-import com.aliza.alizaandroid.STUDENT_SCORE
 import com.aliza.alizaandroid.base.BaseActivity
 import com.aliza.alizaandroid.utils.showSnackbar
 import com.aliza.alizaandroid.databinding.ActivityAddOrUpdateStudentBinding
-import com.aliza.alizaandroid.model.net.ApiManager
 import com.aliza.alizaandroid.model.data.Student
-import com.google.gson.JsonObject
+import com.aliza.alizaandroid.model.repository.MainRepository
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.SingleObserver
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 class AddOrUpdateStudentActivity : BaseActivity<ActivityAddOrUpdateStudentBinding>() {
     override fun inflateBinding(): ActivityAddOrUpdateStudentBinding =
         ActivityAddOrUpdateStudentBinding.inflate(layoutInflater)
 
-    private val apiManager = ApiManager()
     private var isInserting = true
+
+    private lateinit var addOrUpdateStudentViewModel: AddOrUpdateStudentViewModel
+    private val compositeDisposable = CompositeDisposable()
 
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        addOrUpdateStudentViewModel = AddOrUpdateStudentViewModel(MainRepository())
 
         setSupportActionBar(binding.toolbarAddStudentActivity)
         supportActionBar!!.setHomeButtonEnabled(true)
@@ -55,6 +61,11 @@ class AddOrUpdateStudentActivity : BaseActivity<ActivityAddOrUpdateStudentBindin
 
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.clear()
+    }
+
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
@@ -74,23 +85,30 @@ class AddOrUpdateStudentActivity : BaseActivity<ActivityAddOrUpdateStudentBindin
             course.isNotEmpty() &&
             score.isNotEmpty()
         ) {
-            val jsonObject = JsonObject()
-            jsonObject.addProperty(STUDENT_NAME, "$firstName $lastName")
-            jsonObject.addProperty(STUDENT_COURSE, course)
-            jsonObject.addProperty(STUDENT_SCORE, score.toInt())
-            apiManager.insertStudent(jsonObject, object : ApiManager.ApiCallback<Int> {
-                @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
-                override fun onSuccess(data: Int) {
-                    showSnackbar(binding.root, "student inserted successfully.").show()
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        finish()
-                    }, 1500)
-                }
-
-                override fun onError(errorMessage: String) {
-                    Log.e("testApi", errorMessage)
-                }
-            })
+            val student = Student(
+                name = "$firstName $lastName",
+                score = score.toInt(),
+                course = course
+            )
+            addOrUpdateStudentViewModel
+                .insertStudent(student)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : SingleObserver<Int> {
+                    override fun onSubscribe(d: Disposable) {
+                        compositeDisposable.add(d)
+                    }
+                    override fun onError(e: Throwable) {
+                        Log.e("testApi", e.message ?: "null")
+                    }
+                    @SuppressLint("NewApi")
+                    override fun onSuccess(t: Int) {
+                        showSnackbar(binding.root, "student inserted successfully.").show()
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            finish()
+                        }, 1500)
+                    }
+                })
         } else {
             showSnackbar(binding.root, "Please enter complete information.").show()
         }
@@ -107,26 +125,32 @@ class AddOrUpdateStudentActivity : BaseActivity<ActivityAddOrUpdateStudentBindin
             course.isNotEmpty() &&
             score.isNotEmpty()
         ) {
-            val jsonObject = JsonObject()
-            jsonObject.addProperty(STUDENT_NAME, "$firstName $lastName")
-            jsonObject.addProperty(STUDENT_COURSE, course)
-            jsonObject.addProperty(STUDENT_SCORE, score.toInt())
-            apiManager.updateStudent(firstName , lastName, jsonObject, object : ApiManager.ApiCallback<Int> {
-                @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
-                override fun onSuccess(data: Int) {
-                    showSnackbar(binding.root, "student updated successfully.").show()
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        finish()
-                    }, 1500)
-                }
-                override fun onError(errorMessage: String) {
-                    Log.v("testApi", errorMessage)
-                }
-            })
+            val student = Student(
+                name = firstName + lastName,
+                score = score.toInt(),
+                course = course
+            )
+            addOrUpdateStudentViewModel
+                .updateStudent(student)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : SingleObserver<Int> {
+                    override fun onSubscribe(d: Disposable) {
+                        compositeDisposable.add(d)
+                    }
+                    override fun onError(e: Throwable) {
+                        Log.e("testApi", e.message ?: "null")
+                    }
+                    @SuppressLint("NewApi")
+                    override fun onSuccess(t: Int) {
+                        showSnackbar(binding.root, "student updated successfully.").show()
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            finish()
+                        }, 1500)
+                    }
+                })
         } else {
-            showSnackbar(binding.root,"Please enter complete information.").show()
+            showSnackbar(binding.root, "Please enter complete information.").show()
         }
     }
-
-
 }
