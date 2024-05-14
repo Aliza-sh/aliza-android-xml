@@ -23,7 +23,7 @@ class LeaderboardAdapter(
             binding.userAvatarImage.setImageResource(listOfAvatars[position])
 
             item.setOnClickListener {
-                leaderboardEvents.onItemClicked()
+                leaderboardEvents.onItemClicked(myDataset[adapterPosition])
             }
         }
     }
@@ -44,9 +44,8 @@ class LeaderboardAdapter(
     }
 
     override fun getItemCount() = myDataset.size
-
     interface LeaderboardEvents {
-        fun onItemClicked()
+        fun onItemClicked(name: String)
     }
 
 }

@@ -8,5 +8,9 @@ import com.aliza.alizaandroid.databinding.FragmentUserProfileBinding
 class FragmentUserProfile : BaseFragment<FragmentUserProfileBinding>(FragmentUserProfileBinding::inflate) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        val name = FragmentUserProfileArgs.fromBundle(requireArguments()).Name
+
+        binding.profileUserName.text = name
     }
 }
