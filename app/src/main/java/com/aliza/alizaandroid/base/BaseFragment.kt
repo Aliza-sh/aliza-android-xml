@@ -35,24 +35,6 @@ abstract class BaseFragment<VB : ViewBinding>(
         _binding = null
     }
 
-    protected fun navigate(actionId: Int, useCustomAnimation: Boolean = false,popUpToId: Int = -1,popUpToInclusive: Boolean = false) {
-
-        val navOptions = if (useCustomAnimation) {
-            NavOptions.Builder()
-                .setEnterAnim(R.anim.anim_slide_from_right)
-                .setExitAnim(R.anim.anim_slide_to_left)
-                .setPopEnterAnim(R.anim.anim_slide_from_left)
-                .setPopExitAnim(R.anim.anim_slide_to_right)
-                .setPopUpTo(popUpToId,popUpToInclusive)
-                .build()
-        } else {
-            NavOptions.Builder()
-                .build()
-        }
-
-        findNavController().navigate(actionId, null, navOptions)
-    }
-
     //Method to get the name of the caller's class.
     protected open fun getCallerClassName(): String {
         val stackTrace = Thread.currentThread().stackTrace
