@@ -20,6 +20,7 @@ import com.aliza.alizaandroid.databinding.ActivityStudentBinding
 import com.aliza.alizaandroid.model.data.Student
 import com.aliza.alizaandroid.model.repository.MainRepository
 import com.aliza.alizaandroid.ui.addOrUpdateStudent.AddOrUpdateStudentActivity
+import com.aliza.alizaandroid.utils.asyncRequest
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.SingleObserver
@@ -100,8 +101,7 @@ class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.S
     private fun getDataFromApi() {
         studentViewModel
             .getAllStudents()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .asyncRequest()
             .subscribe(object :SingleObserver<List<Student>>{
                 override fun onSubscribe(d: Disposable) {
                     compositeDisposable.add(d)
@@ -149,8 +149,7 @@ class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.S
     private fun deleteDataFromServer(student: Student, position: Int) {
         studentViewModel
             .deleteStudent(student.name)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .asyncRequest()
             .subscribe(object : SingleObserver<Int> {
                 override fun onSubscribe(d: Disposable) {
                     compositeDisposable.add(d)

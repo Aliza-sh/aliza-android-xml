@@ -14,6 +14,7 @@ import com.aliza.alizaandroid.utils.showSnackbar
 import com.aliza.alizaandroid.databinding.ActivityAddOrUpdateStudentBinding
 import com.aliza.alizaandroid.model.data.Student
 import com.aliza.alizaandroid.model.repository.MainRepository
+import com.aliza.alizaandroid.utils.asyncRequest
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.SingleObserver
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -92,8 +93,7 @@ class AddOrUpdateStudentActivity : BaseActivity<ActivityAddOrUpdateStudentBindin
             )
             addOrUpdateStudentViewModel
                 .insertStudent(student)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .asyncRequest()
                 .subscribe(object : SingleObserver<Int> {
                     override fun onSubscribe(d: Disposable) {
                         compositeDisposable.add(d)
@@ -132,8 +132,7 @@ class AddOrUpdateStudentActivity : BaseActivity<ActivityAddOrUpdateStudentBindin
             )
             addOrUpdateStudentViewModel
                 .updateStudent(student)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .asyncRequest()
                 .subscribe(object : SingleObserver<Int> {
                     override fun onSubscribe(d: Disposable) {
                         compositeDisposable.add(d)
