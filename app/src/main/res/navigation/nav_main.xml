@@ -87,22 +87,8 @@
 
     </fragment>
 
-    <navigation android:id="@+id/navigation_leaderboard"
-        app:startDestination="@id/leaderboard">
-        <fragment
-            android:id="@+id/userProfile"
-            android:name="com.aliza.alizaandroid.ui.FragmentUserProfile"
-            android:label="fragment_user_profile"
-            tools:layout="@layout/fragment_user_profile" />
-        <fragment
-            android:id="@+id/leaderboard"
-            android:name="com.aliza.alizaandroid.ui.FragmentLeaderboard"
-            android:label="fragment_leaderboard"
-            tools:layout="@layout/fragment_leaderboard">
-            <action
-                android:id="@+id/action_leaderboard_to_userProfile"
-                app:destination="@id/userProfile" />
-        </fragment>
-    </navigation>
+    <include
+        android:id="@+id/navigation_leaderboard"
+        app:graph= "@navigation/nav_leaderboard"/>
 
 </navigation>
