@@ -8,18 +8,20 @@ import android.os.Looper
 import android.util.Log
 import android.view.MenuItem
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.ViewModelProvider
 import com.aliza.alizaandroid.EXTRA_STUDENT
 import com.aliza.alizaandroid.base.BaseActivity
 import com.aliza.alizaandroid.utils.showSnackbar
 import com.aliza.alizaandroid.databinding.ActivityAddOrUpdateStudentBinding
 import com.aliza.alizaandroid.model.data.Student
+import com.aliza.alizaandroid.model.db.AppDatabase
+import com.aliza.alizaandroid.model.net.ApiServiceSingleton
 import com.aliza.alizaandroid.model.repository.MainRepository
+import com.aliza.alizaandroid.utils.AddOrUpdateStudentViewModelFactory
 import com.aliza.alizaandroid.utils.asyncRequest
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.SingleObserver
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.schedulers.Schedulers
 
 class AddOrUpdateStudentActivity : BaseActivity<ActivityAddOrUpdateStudentBinding>() {
     override fun inflateBinding(): ActivityAddOrUpdateStudentBinding =
@@ -35,7 +37,16 @@ class AddOrUpdateStudentActivity : BaseActivity<ActivityAddOrUpdateStudentBindin
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        addOrUpdateStudentViewModel = AddOrUpdateStudentViewModel(MainRepository())
+        addOrUpdateStudentViewModel =
+            ViewModelProvider(
+            this,
+            AddOrUpdateStudentViewModelFactory(
+                MainRepository(
+                    ApiServiceSingleton.apiService!!,
+                    AppDatabase.getDatabase(applicationContext).studentDao
+                )
+            )
+        )[AddOrUpdateStudentViewModel::class.java]
 
         setSupportActionBar(binding.toolbarAddStudentActivity)
         supportActionBar!!.setHomeButtonEnabled(true)
@@ -126,7 +137,7 @@ class AddOrUpdateStudentActivity : BaseActivity<ActivityAddOrUpdateStudentBindin
             score.isNotEmpty()
         ) {
             val student = Student(
-                name = firstName + lastName,
+                name = "$firstName $lastName",
                 score = score.toInt(),
                 course = course
             )
