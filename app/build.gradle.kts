@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     id ("kotlin-parcelize")
+    id ("kotlin-kapt")
 
 }
 
@@ -62,5 +63,9 @@ dependencies {
     // RxJava =>
     implementation (libs.rxandroid)
     implementation (libs.rxjava3)
+
+    // room =>
+    implementation (libs.androidx.room.runtime)
+    kapt (libs.room.compiler)
 
 }
