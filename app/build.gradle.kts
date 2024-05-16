@@ -2,6 +2,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
+    id ("kotlin-kapt")
 }
 
 android {
@@ -49,4 +50,18 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+
+    // Dagger2 =>
+    implementation (libs.dagger.android.support)
+    kapt (libs.dagger.compiler)
+    kapt (libs.dagger.android.processor)
+
+    // Picasso =>
+    implementation (libs.picasso)
+
+    // Retrofit =>
+    implementation (libs.retrofit)
+    implementation (libs.converter.gson)
+
 }
