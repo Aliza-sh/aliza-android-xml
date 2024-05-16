@@ -80,27 +80,26 @@ class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.S
         studentViewModel.getErrorData().observe(this) {
             Log.e("testLog", it)
         }
-
-        compositeDisposable.add(
-            studentViewModel.progressBarSubject.subscribe {
-                if (it) {
-                    runOnUiThread {
-                        binding.progressMain.visibility = VISIBLE
-                        binding.recyclerMain.visibility = INVISIBLE
-                    }
-                } else {
-                    runOnUiThread {
-                        binding.progressMain.visibility = INVISIBLE
-                        binding.recyclerMain.visibility = VISIBLE
-                    }
-                }
-            }
-        )
     }
 
     private fun networkChecker() {
         if (NetworkChecker(applicationContext).isInternetConnected) {
             studentViewModel.refreshData()
+            compositeDisposable.add(
+                studentViewModel.progressBarSubject.subscribe {
+                    if (it) {
+                        runOnUiThread {
+                            binding.progressMain.visibility = VISIBLE
+                            binding.recyclerMain.visibility = INVISIBLE
+                        }
+                    } else {
+                        runOnUiThread {
+                            binding.progressMain.visibility = INVISIBLE
+                            binding.recyclerMain.visibility = VISIBLE
+                        }
+                    }
+                }
+            )
         } else {
             showSnackbar(binding.root,"No Internet!")
                 .setAction("Retry") {
