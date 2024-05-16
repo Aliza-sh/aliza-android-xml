@@ -1,53 +1,55 @@
 package com.aliza.alizaandroid.model.repository
 
+import androidx.lifecycle.LiveData
 import com.aliza.alizaandroid.model.data.Student
+import com.aliza.alizaandroid.model.db.StudentDao
 import com.aliza.alizaandroid.model.net.ApiService
-import com.aliza.alizaandroid.model.net.BASE_URL
 import com.aliza.alizaandroid.utils.studentToJsonObject
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
-import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
 
-class MainRepository {
-    private val apiService: ApiService
 
-    init {
+class MainRepository(
+    private val apiService: ApiService,
+    private val studentDao: StudentDao
+) {
 
-        val okHttpClient = OkHttpClient.Builder().addInterceptor {
-            val oldRequest = it.request()
-            val newRequest = oldRequest.newBuilder()
-            //custom Request
-            it.proceed(newRequest.build())
-        }.build()
-
-        val retrofit = Retrofit
-            .Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(okHttpClient)
-            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-            .build()
-
-        apiService = retrofit.create(ApiService::class.java)
-
+    fun getAllStudents(): LiveData<List<Student>> {
+        return studentDao.getAllData()
     }
 
-    fun getAllStudents(): Single<List<Student>> {
-        return apiService.getAllStudents()
+    // caching
+    fun refreshData(): Completable {
+        return apiService
+            .getAllStudents()
+            .doOnSuccess {
+                studentDao.insertAll(it)
+            }
+            .ignoreElement()
+    }
+
+    fun insertStudent(student: Student):  Single<Int> {
+        return apiService
+            .insertStudent( studentToJsonObject(student) )
+            .doOnSuccess{
+                studentDao.insertOrUpdate(student)
+            }
+    }
+
+    fun updateStudent(student: Student):  Single<Int> {
+        return apiService
+            .updateStudent(student.name, studentToJsonObject(student))
+            .doOnSuccess {
+                studentDao.insertOrUpdate(student)
+            }
     }
 
     fun deleteStudent(studentName: String): Single<Int> {
-        return apiService.deleteStudent(studentName)
-    }
-
-    fun insertStudent(student: Student): Single<Int> {
-        return apiService.insertStudent(studentToJsonObject(student))
-    }
-
-    fun updateStudent(student: Student): Single<Int> {
-        return apiService.updateStudent(student.name, studentToJsonObject(student))
+        return apiService
+            .deleteStudent(studentName)
+            .doOnSuccess {
+                studentDao.delete(studentName)
+            }
     }
 
 }
