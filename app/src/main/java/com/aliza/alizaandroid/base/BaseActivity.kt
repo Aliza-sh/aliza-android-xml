@@ -7,11 +7,11 @@ import android.os.Build
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.aliza.alizaandroid.R
+import dagger.android.support.DaggerAppCompatActivity
 
-abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
+abstract class BaseActivity<VB : ViewBinding> : DaggerAppCompatActivity() {
 
     lateinit var binding: VB
     abstract fun inflateBinding(): VB
