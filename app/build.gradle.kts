@@ -63,6 +63,8 @@ dependencies {
     // retrofit library =>
     implementation (libs.retrofit)
     implementation (libs.converter.gson)
+
+    implementation("androidx.activity:activity-ktx:1.9.0")
 }
 
 // Allow references to generated code
