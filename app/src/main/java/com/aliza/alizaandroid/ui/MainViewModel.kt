@@ -10,27 +10,14 @@ import kotlinx.coroutines.flow.map
 
 class MainViewModel(mainRepository: MainRepository) {
 
-    val dataStudents3: Flow<StudentUi> =
-        mainRepository.getAllFromApi()
-            .map {
-                StudentUi(it.id, it.name, it.familyName, it.grade)
-            }
-            .filter {
-                it.name.endsWith("3")
-            }
-            .catch {
-                Log.v("testFlow", it.message ?: "null message")
-            }
-
-    val dataStudents7: Flow<StudentUi> =
-        mainRepository.getAllFromApi()
-            .map {
-                StudentUi(it.id, it.name, it.familyName, it.grade)
-            }
-            .filter {
-                it.name.endsWith("7")
-            }
-            .catch {
-                Log.v("testFlow", it.message ?: "null message")
-            }
+    val dataStudents: Flow<StudentUi> = mainRepository.getAllFromApi()
+        .map {
+            StudentUi(it.id, it.name, it.familyName, it.grade)
+        }
+        .filter {
+            it.name.endsWith("7")
+        }
+        .catch {
+            Log.v("testFlow", it.message ?: "null message")
+        }
 }
