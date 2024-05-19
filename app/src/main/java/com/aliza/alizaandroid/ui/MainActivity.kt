@@ -4,32 +4,26 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.aliza.alizaandroid.base.BaseActivity
 import com.aliza.alizaandroid.databinding.ActivityMainBinding
+import com.aliza.alizaandroid.model.MainRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun inflateBinding() = ActivityMainBinding.inflate(layoutInflater)
-
-    private lateinit var viewModel :MainViewModel
+    private val viewModel = MainViewModel(MainRepository(), Dispatchers.IO)
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
-
         lifecycleScope.launch {
-            viewModel.counter.collect {
-                Log.v("testFlow" , it.toString())
-            }
+            viewModel.dataStudents
+                .collect {
+                    Log.v("testFlow" , it.name)
+                }
+
         }
     }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.incrementCounter()
-    }
-
 }
