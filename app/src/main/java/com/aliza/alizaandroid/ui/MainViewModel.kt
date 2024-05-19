@@ -1,23 +1,16 @@
 package com.aliza.alizaandroid.ui
 
-import android.util.Log
-import com.aliza.alizaandroid.model.MainRepository
-import com.aliza.alizaandroid.model.data.StudentUi
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.map
+import androidx.lifecycle.ViewModel
 
-class MainViewModel(mainRepository: MainRepository) {
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
-    val dataStudents: Flow<StudentUi> = mainRepository.getAllFromApi()
-        .map {
-            StudentUi(it.id, it.name, it.familyName, it.grade)
-        }
-        .filter {
-            it.name.endsWith("7")
-        }
-        .catch {
-            Log.v("testFlow", it.message ?: "null message")
-        }
+class MainViewModel() : ViewModel() {
+    private val _counter = MutableStateFlow(0)
+    val counter : StateFlow<Int> get() = _counter
+
+    fun incrementCounter() {
+        _counter.value++
+    }
+
 }
