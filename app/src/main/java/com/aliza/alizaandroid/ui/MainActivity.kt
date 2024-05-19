@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.aliza.alizaandroid.base.BaseActivity
 import com.aliza.alizaandroid.databinding.ActivityMainBinding
 import com.aliza.alizaandroid.model.MainRepository
@@ -18,8 +20,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.dataStudents.observe(this) {
-            Log.v("testFlow" , it.name)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.dataStudents3.collect {
+                        Log.v("testFlow" , it.name)
+                    }
+                }
+                launch {
+                    viewModel.dataStudents7.collect {
+                        Log.v("testFlow" , it.name)
+                    }
+                }
+
+            }
         }
     }
 }
