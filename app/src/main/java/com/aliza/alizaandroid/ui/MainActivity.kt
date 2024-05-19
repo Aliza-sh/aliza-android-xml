@@ -8,18 +8,19 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.lifecycleScope
 import com.aliza.alizaandroid.base.BaseActivity
 import com.aliza.alizaandroid.databinding.ActivityMainBinding
+import com.aliza.alizaandroid.model.MainRepository
 import kotlinx.coroutines.launch
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun inflateBinding() = ActivityMainBinding.inflate(layoutInflater)
-    private val viewModel = MainViewModel()
+    private val viewModel = MainViewModel(MainRepository())
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         lifecycleScope.launch {
-            viewModel.createFlow.collect {
-                Log.v("testFlow" , it.toString())
+            viewModel.dataStudents.collect {
+                Log.v("testFlow" , it.name)
             }
         }
     }
