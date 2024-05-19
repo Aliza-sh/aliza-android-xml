@@ -18,10 +18,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        lifecycleScope.launch {
-            viewModel.dataStudents.collect {
-                Log.v("testFlow" , it.name)
-            }
+        viewModel.dataStudents.observe(this) {
+            Log.v("testFlow" , it.name)
         }
     }
 }
