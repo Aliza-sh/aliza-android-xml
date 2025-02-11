@@ -21,7 +21,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = userAdapter
         }
-        userAdapter.differ.submitList(userManager.getUsers())
+        userAdapter.setData(userManager.getUsers())
         Log.d("UserList", userManager.getUsers().toString())
 
         binding.addButton.setOnClickListener {
@@ -33,21 +33,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     )
                 )
             )
-                userAdapter.differ.submitList(userManager.getUsers())
+                userAdapter.setData(userManager.getUsers())
             Log.d("UserList", userManager.getUsers().toString())
 
         }
 
         binding.removeButton.setOnClickListener {
             if (userManager.removeUser(3))
-                userAdapter.differ.submitList(userManager.getUsers())
+                userAdapter.setData(userManager.getUsers())
             Log.d("UserList", userManager.getUsers().toString())
 
         }
 
         binding.updateButton.setOnClickListener {
             if (userManager.updateUser(UserModel(6, "Reza Updated", 28)))
-                userAdapter.differ.submitList(userManager.getUsers())
+                userAdapter.setData(userManager.getUsers())
             Log.d("UserList", userManager.getUsers().toString())
 
         }
