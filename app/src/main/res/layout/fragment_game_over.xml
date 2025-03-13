@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FF897D"
-    tools:context=".ui.FragmentGameOver"
+    tools:context=".ui.pages1.FragmentGameOver"
     tools:layout_editor_absoluteY="81dp">
 
     <TextView

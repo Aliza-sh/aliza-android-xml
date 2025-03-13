@@ -1,4 +1,4 @@
-package com.aliza.alizaandroid.ui
+package com.aliza.alizaandroid.ui.pages1
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater

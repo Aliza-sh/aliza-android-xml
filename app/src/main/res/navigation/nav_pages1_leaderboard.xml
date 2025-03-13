@@ -7,7 +7,7 @@
     app:startDestination="@id/leaderboard">
     <fragment
         android:id="@+id/userProfile"
-        android:name="com.aliza.alizaandroid.ui.FragmentUserProfile"
+        android:name="com.aliza.alizaandroid.ui.pages1.FragmentUserProfile"
         android:label="fragment_user_profile"
         tools:layout="@layout/fragment_user_profile" >
         <argument
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/leaderboard"
-        android:name="com.aliza.alizaandroid.ui.FragmentLeaderboard"
+        android:name="com.aliza.alizaandroid.ui.pages1.FragmentLeaderboard"
         android:label="fragment_leaderboard"
         tools:layout="@layout/fragment_leaderboard">
         <action

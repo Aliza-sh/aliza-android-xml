@@ -1,4 +1,4 @@
-package com.aliza.alizaandroid.ui
+package com.aliza.alizaandroid.ui.pages1
 
 import android.os.Bundle
 import android.view.View

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/titleScreen"
-        android:name="com.aliza.alizaandroid.ui.FragmentTitleScreen"
+        android:name="com.aliza.alizaandroid.ui.pages1.FragmentTitleScreen"
         android:label="fragment_title_screen"
         tools:layout="@layout/fragment_title_screen" >
         <action
@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/register"
-        android:name="com.aliza.alizaandroid.ui.FragmentRegister"
+        android:name="com.aliza.alizaandroid.ui.pages1.FragmentRegister"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" >
         <action
@@ -30,7 +30,7 @@
 
     <fragment
         android:id="@+id/match"
-        android:name="com.aliza.alizaandroid.ui.FragmentMatch"
+        android:name="com.aliza.alizaandroid.pages1.FragmentMatch"
         android:label="fragment_match"
         tools:layout="@layout/fragment_match" >
         <action
@@ -40,7 +40,7 @@
 
     <fragment
         android:id="@+id/inGame"
-        android:name="com.aliza.alizaandroid.ui.FragmentInGame"
+        android:name="com.aliza.alizaandroid.pages1.FragmentInGame"
         android:label="fragment_in_game"
         tools:layout="@layout/fragment_in_game" >
 
@@ -58,7 +58,7 @@
 
     <fragment
         android:id="@+id/gameOver"
-        android:name="com.aliza.alizaandroid.ui.FragmentGameOver"
+        android:name="com.aliza.alizaandroid.pages1.FragmentGameOver"
         android:label="fragment_game_over"
         tools:layout="@layout/fragment_game_over" >
 
@@ -72,7 +72,7 @@
 
     <fragment
         android:id="@+id/resultsWinner"
-        android:name="com.aliza.alizaandroid.ui.FragmentResultsWinner"
+        android:name="com.aliza.alizaandroid.pages1.FragmentResultsWinner"
         android:label="fragment_results_winner"
         tools:layout="@layout/fragment_results_winner" >
 
@@ -89,6 +89,6 @@
 
     <include
         android:id="@+id/navigation_leaderboard"
-        app:graph= "@navigation/nav_leaderboard"/>
+        app:graph= "@navigation/nav_pages1_leaderboard"/>
 
 </navigation>

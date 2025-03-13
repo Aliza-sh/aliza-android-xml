@@ -30,7 +30,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
             @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
             override fun handleOnBackPressed() {
 
-                val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView)
+                val navHostFragment = supportFragmentManager.findFragmentById(R.id.pages1NavHost)
                 val backStackEntryCount = navHostFragment?.childFragmentManager?.backStackEntryCount ?: 0
 
                 // Check Orientation
@@ -40,7 +40,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
                 } else if (backStackEntryCount > 0) {
                     // Pop the fragment from the back stack
                     onBack()
-                    findNavController(R.id.fragmentContainerView).popBackStack()
+                    findNavController(R.id.pages1NavHost).popBackStack()
                 } else {
                     // Close the activity
                     finish()
