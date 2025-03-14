@@ -26,5 +26,8 @@
         <argument
             android:name="bundleInfo"
             app:argType="string" />
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="aliza.com/product/{bundleInfo}" />
     </fragment>
 </navigation>
