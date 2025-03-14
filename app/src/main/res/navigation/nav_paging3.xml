@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_paging"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.aliza.alizaandroid.ui.BottomNavigation.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.aliza.alizaandroid.ui.BottomNavigation.SearchFragment"
+        android:label="SearchFragment"
+        tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/addFragment"
+        android:name="com.aliza.alizaandroid.ui.BottomNavigation.AddFragment"
+        android:label="AddFragment"
+        tools:layout="@layout/fragment_add" />
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.aliza.alizaandroid.ui.BottomNavigation.FavoriteFragment"
+        android:label="FavoriteFragment"
+        tools:layout="@layout/fragment_favorite" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.aliza.alizaandroid.ui.BottomNavigation.ProfileFragment"
+        android:label="ProfileFragment"
+        tools:layout="@layout/fragment_profile" />
+</navigation>
