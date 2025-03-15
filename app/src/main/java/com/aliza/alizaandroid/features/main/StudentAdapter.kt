@@ -5,15 +5,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.aliza.alizaandroid.databinding.ItemMainBinding
-import com.aliza.alizaandroid.net.model.Student
+import com.aliza.alizaandroid.net.model.ResponseStudent
 
-class StudentAdapter(val data: ArrayList<Student>, val studentEvent: StudentEvent) :
+class StudentAdapter(val data: ArrayList<ResponseStudent>, val studentEvent: StudentEvent) :
     RecyclerView.Adapter<StudentAdapter.StudentViewHolder>() {
     lateinit var binding: ItemMainBinding
 
     inner class StudentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bindViews(student: Student) {
+        fun bindViews(student: ResponseStudent) {
 
             binding.txtName.text = student.name
             binding.txtCourse.text = student.course
@@ -59,14 +59,14 @@ class StudentAdapter(val data: ArrayList<Student>, val studentEvent: StudentEven
     }
 
 
-    fun removeItem(student: Student, position: Int) {
+    fun removeItem(student: ResponseStudent, position: Int) {
         data.remove(student)
         notifyItemRemoved(position)
     }
 
     interface StudentEvent {
-        fun onItemClicked(student: Student, position: Int)
-        fun onItemLongClicked(student: Student, position: Int)
+        fun onItemClicked(student: ResponseStudent, position: Int)
+        fun onItemLongClicked(student: ResponseStudent, position: Int)
     }
 
 }

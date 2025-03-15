@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,7 +18,7 @@ import com.aliza.alizaandroid.base.NetworkChecker
 import com.aliza.alizaandroid.base.showSnackbar
 import com.aliza.alizaandroid.databinding.ActivityStudentBinding
 import com.aliza.alizaandroid.net.ApiManager
-import com.aliza.alizaandroid.net.model.Student
+import com.aliza.alizaandroid.net.model.ResponseStudent
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.StudentEvent {
@@ -33,6 +34,7 @@ class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.S
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbarMain)
+        binding.moviesLoader.visibility = View.VISIBLE
 
         binding.btnAddStudent.setOnClickListener {
             val intent = Intent(this, AddStudentActivity::class.java)
@@ -67,18 +69,20 @@ class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.S
     }
 
     private fun getDataFromApi() {
-        apiManager.getAllStudents(object : ApiManager.ApiCallback<List<Student>> {
-            override fun onSuccess(data: List<Student>) {
+        apiManager.getAllStudents(object : ApiManager.ApiCallback<List<ResponseStudent>> {
+            override fun onSuccess(data: List<ResponseStudent>) {
+                binding.moviesLoader.visibility = View.GONE
                 setDataToRecycler(data)
             }
 
             override fun onError(errorMessage: String) {
+                binding.moviesLoader.visibility = View.GONE
                 Log.v("testApi", errorMessage)
             }
         })
     }
 
-    fun setDataToRecycler(data: List<Student>) {
+    fun setDataToRecycler(data: List<ResponseStudent>) {
         val myData = ArrayList(data)
         myAdapter = StudentAdapter(myData, this)
         binding.recyclerMain.adapter = myAdapter
@@ -86,17 +90,17 @@ class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.S
     }
 
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
-    override fun onItemClicked(student: Student, position: Int) {
+    override fun onItemClicked(student: ResponseStudent, position: Int) {
         updateDataInServer(student)
     }
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
-    private fun updateDataInServer(student: Student) {
+    private fun updateDataInServer(student: ResponseStudent) {
         val intent = Intent(this, AddStudentActivity::class.java)
         intent.putExtra(EXTRA_STUDENT, student)
         startActivity(intent)
     }
 
-    override fun onItemLongClicked(student: Student, position: Int) {
+    override fun onItemLongClicked(student: ResponseStudent, position: Int) {
         MaterialAlertDialogBuilder(this)
             .setTitle("Delete this Item?")
             .setPositiveButton("confirm") { dialog, which ->
@@ -109,7 +113,7 @@ class StudentActivity : BaseActivity<ActivityStudentBinding>(), StudentAdapter.S
             .show()
     }
 
-    private fun deleteDataFromServer(student: Student, position: Int) {
+    private fun deleteDataFromServer(student: ResponseStudent, position: Int) {
         apiManager.deleteStudent(student.name, object : ApiManager.ApiCallback<Int> {
             override fun onSuccess(data: Int) {
                 myAdapter.removeItem(student, position)

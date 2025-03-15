@@ -1,7 +1,7 @@
 package com.aliza.alizaandroid.net
 
-import com.aliza.alizaandroid.net.model.Student
-import com.google.gson.JsonObject
+import com.aliza.alizaandroid.net.model.BodyStudent
+import com.aliza.alizaandroid.net.model.ResponseStudent
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -31,17 +31,21 @@ class ApiManager {
         apiService = retrofit.create(ApiService::class.java)
     }
 
-    fun getAllStudents(apiCallback: ApiCallback<List<Student>>) {
+    fun getAllStudents(apiCallback: ApiCallback<List<ResponseStudent>>) {
 
-        apiService.getAllStudents().enqueue(object : Callback<List<Student>> {
-            override fun onResponse(call: Call<List<Student>>, response: Response<List<Student>>) {
+        apiService.getAllStudents().enqueue(object : Callback<List<ResponseStudent>> {
+            override fun onResponse(
+                call: Call<List<ResponseStudent>>,
+                response: Response<List<ResponseStudent>>
+            ) {
                 if (response.isSuccessful) {
-                    val data = response.body()
-                    if (data != null) {
-                        apiCallback.onSuccess(data)
-                    } else {
-                        // Handle api null
-                        apiCallback.onError("data is null")
+                    response.body()?.let { itBody ->
+                        itBody.let { itData ->
+                            if (itData.isNotEmpty())
+                                apiCallback.onSuccess(itData)
+                            else
+                                apiCallback.onError("data is null")
+                        }
                     }
                 } else {
                     // Handle api error
@@ -49,15 +53,15 @@ class ApiManager {
                 }
             }
 
-            override fun onFailure(call: Call<List<Student>>, t: Throwable) {
+            override fun onFailure(call: Call<List<ResponseStudent>>, t: Throwable) {
                 apiCallback.onError(t.message!!)
             }
         })
     }
 
-    private fun cleanCoinsData(data: List<Student>): List<Student> {
+    private fun cleanCoinsData(data: List<ResponseStudent>): List<ResponseStudent> {
 
-        val newData = mutableListOf<Student>()
+        val newData = mutableListOf<ResponseStudent>()
 
         data.forEach {
             if (it != null) {
@@ -67,22 +71,21 @@ class ApiManager {
         return newData
     }
 
-    fun insertStudent(body: JsonObject, apiCallback: ApiCallback<Int>) {
+    fun insertStudent(body: BodyStudent, apiCallback: ApiCallback<Int>) {
         apiService.insertStudent(body).enqueue(object : Callback<Int> {
             override fun onResponse(call: Call<Int>, response: Response<Int>) {
                 if (response.isSuccessful) {
-                    val data = response.body()
-                    if (data != null) {
-                        apiCallback.onSuccess(data)
-                    } else {
-                        // Handle api null
-                        apiCallback.onError("data is null")
+                    response.body()?.let { itBody ->
+                        itBody.let { itData ->
+                            apiCallback.onSuccess(itData)
+                        }
                     }
                 } else {
                     // Handle api error
                     apiCallback.onError("Error: " + response.code())
                 }
             }
+
             override fun onFailure(call: Call<Int>, t: Throwable) {
                 apiCallback.onError(t.message!!)
             }
@@ -92,24 +95,23 @@ class ApiManager {
     fun updateStudent(
         firstName: String,
         lastName: String,
-        body: JsonObject,
+        body: BodyStudent,
         apiCallback: ApiCallback<Int>
     ) {
         apiService.updateStudent("$firstName $lastName", body).enqueue(object : Callback<Int> {
             override fun onResponse(call: Call<Int>, response: Response<Int>) {
                 if (response.isSuccessful) {
-                    val data = response.body()
-                    if (data != null) {
-                        apiCallback.onSuccess(data)
-                    } else {
-                        // Handle api null
-                        apiCallback.onError("data is null")
+                    response.body()?.let { itBody ->
+                        itBody.let { itData ->
+                            apiCallback.onSuccess(itData)
+                        }
                     }
                 } else {
                     // Handle api error
                     apiCallback.onError("Error: " + response.code())
                 }
             }
+
             override fun onFailure(call: Call<Int>, t: Throwable) {
                 apiCallback.onError(t.message!!)
             }
@@ -120,18 +122,17 @@ class ApiManager {
         apiService.deleteStudent(nameStudent).enqueue(object : Callback<Int> {
             override fun onResponse(call: Call<Int>, response: Response<Int>) {
                 if (response.isSuccessful) {
-                    val data = response.body()
-                    if (data != null) {
-                        apiCallback.onSuccess(data)
-                    } else {
-                        // Handle api null
-                        apiCallback.onError("data is null")
+                    response.body()?.let { itBody ->
+                        itBody.let { itData ->
+                            apiCallback.onSuccess(itData)
+                        }
                     }
                 } else {
                     // Handle api error
                     apiCallback.onError("Error: " + response.code())
                 }
             }
+
             override fun onFailure(call: Call<Int>, t: Throwable) {
                 apiCallback.onError(t.message!!)
             }

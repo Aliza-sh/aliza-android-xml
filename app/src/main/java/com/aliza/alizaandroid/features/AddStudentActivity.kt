@@ -1,5 +1,6 @@
 package com.aliza.alizaandroid.features
 
+import android.R
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -8,15 +9,12 @@ import android.util.Log
 import android.view.MenuItem
 import androidx.annotation.RequiresApi
 import com.aliza.alizaandroid.EXTRA_STUDENT
-import com.aliza.alizaandroid.STUDENT_COURSE
-import com.aliza.alizaandroid.STUDENT_NAME
-import com.aliza.alizaandroid.STUDENT_SCORE
 import com.aliza.alizaandroid.base.BaseActivity
 import com.aliza.alizaandroid.base.showSnackbar
 import com.aliza.alizaandroid.databinding.ActivityAddStudentBinding
 import com.aliza.alizaandroid.net.ApiManager
-import com.aliza.alizaandroid.net.model.Student
-import com.google.gson.JsonObject
+import com.aliza.alizaandroid.net.model.BodyStudent
+import com.aliza.alizaandroid.net.model.ResponseStudent
 
 class AddStudentActivity : BaseActivity<ActivityAddStudentBinding>() {
     override fun inflateBinding(): ActivityAddStudentBinding =
@@ -35,7 +33,7 @@ class AddStudentActivity : BaseActivity<ActivityAddStudentBinding>() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         binding.edtFirstName.requestFocus()
 
-        val dataFromIntent = intent.getParcelableExtra(EXTRA_STUDENT, Student::class.java)
+        val dataFromIntent = intent.getParcelableExtra(EXTRA_STUDENT, ResponseStudent::class.java)
         isInserting = (dataFromIntent == null)
         if (!isInserting) {
             binding.btnDone.text = "update"
@@ -57,7 +55,7 @@ class AddStudentActivity : BaseActivity<ActivityAddStudentBinding>() {
 
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
+        if (item.itemId == R.id.home) {
             finish()
         }
         return true
@@ -74,11 +72,12 @@ class AddStudentActivity : BaseActivity<ActivityAddStudentBinding>() {
             course.isNotEmpty() &&
             score.isNotEmpty()
         ) {
-            val jsonObject = JsonObject()
-            jsonObject.addProperty(STUDENT_NAME, "$firstName $lastName")
-            jsonObject.addProperty(STUDENT_COURSE, course)
-            jsonObject.addProperty(STUDENT_SCORE, score.toInt())
-            apiManager.insertStudent(jsonObject, object : ApiManager.ApiCallback<Int> {
+            val student = BodyStudent(
+                name = "$firstName $lastName",
+                course = course,
+                score = score.toInt()
+            )
+            apiManager.insertStudent(student, object : ApiManager.ApiCallback<Int> {
                 @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
                 override fun onSuccess(data: Int) {
                     showSnackbar(binding.root, "student inserted successfully.").show()
@@ -107,11 +106,13 @@ class AddStudentActivity : BaseActivity<ActivityAddStudentBinding>() {
             course.isNotEmpty() &&
             score.isNotEmpty()
         ) {
-            val jsonObject = JsonObject()
-            jsonObject.addProperty(STUDENT_NAME, "$firstName $lastName")
-            jsonObject.addProperty(STUDENT_COURSE, course)
-            jsonObject.addProperty(STUDENT_SCORE, score.toInt())
-            apiManager.updateStudent(firstName , lastName, jsonObject, object : ApiManager.ApiCallback<Int> {
+
+            val student = BodyStudent(
+                name = "$firstName $lastName",
+                course = course,
+                score = score.toInt()
+            )
+            apiManager.updateStudent(firstName , lastName, student, object : ApiManager.ApiCallback<Int> {
                 @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
                 override fun onSuccess(data: Int) {
                     showSnackbar(binding.root, "student updated successfully.").show()
